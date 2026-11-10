@@ -198,7 +198,7 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .gx { background: none; border: 0; color: #8A8A90; font-size: 1.1em; cursor: pointer; } .gsq { margin: 0; text-align: center; color: #9A9AA2; font-size: .9em; }
 .gst { background: #232326; border-radius: 8px; } .gst div { display: flex; justify-content: space-between; padding: .5em .7em; border-bottom: 1px solid #2E2E32; font-size: .9em; } .gst div:last-child { border: 0; } .gst span { color: #C9C9CF; } .gr { color: #4FB477; }
 .gsb { background: #C8473A; color: #fff; border: 0; border-radius: 8px; padding: .65em; font: 600 1em var(--body); cursor: pointer; outline: 2px solid #F2C94C; animation: glow 1.2s infinite; } .gsb[disabled] { background: #2F6E4A; outline: 0; animation: none; }
-.game.side:has(.gsm) h2 { display: none; }
+.game.side:has(.gsm) h2, .game.side:has(.rad2) h2 { display: none; }
 .rp { gap: .4em; } .rph { display: flex; justify-content: space-between; } .rph i { font-style: normal; width: 2em; height: 2em; border: 1px solid #3A3A40; border-radius: 8px; display: grid; place-items: center; } .rps { color: #9A9AA2; }
 .rpl { display: grid; grid-template-columns: 1fr 1fr; gap: .3em; } .rpl button { text-align: left; display: grid; background: #1F1F22; border: 1px solid #333338; border-radius: 8px; padding: .3em .55em; color: #EDEDF0; cursor: pointer; font: 500 .85em var(--body); }
 .rpl button span { color: #8A8A92; font-size: .85em; } .rpl button:hover { border-color: #55555C; } .rpl button.on { border-color: #C8473A; background: #2A1C1B; }
@@ -235,9 +235,20 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .fql { display: grid; background: #15171B; border: 1px solid #333; border-radius: 4px; margin-bottom: .2em; } .fql[hidden] { display: none; } .fql button { background: none; border: 0; color: #fff; text-align: left; padding: .3em .6em; cursor: pointer; } .fql button:hover { background: #2A2D33; }
 .rhud { position: absolute; left: 2.5%; top: 14%; z-index: 4; color: #fff; text-shadow: 1px 1px 0 #000; font: 700 clamp(9px, 1.2vw, 14px) Tahoma, Verdana, system-ui; display: grid; gap: .15em; animation: pop .4s; }
 .rhud .st { display: flex; gap: .3em; } .rhud .st i { font-style: normal; width: 1.9em; height: 1.9em; border-radius: 50%; border: 2px solid #D8432F; display: grid; place-items: center; background: rgba(0,0,0,.4); } .rhud > b { font-size: 1.4em; } .rhud small { color: #ddd; }
-.rhud p { margin: 0; } .rhud .me { color: #F2C94C; } .rhud.talk .me::after { content: ' 🔊'; animation: glow .5s infinite; } .rhud.talk .me { color: #4FB477; }
+.rhud p { margin: 0; } .rhud .me { color: #F2C94C; } .rhud.talk .me::after { content: ' 🔊 falando…'; color: #4FB477; } .rhud.talk .me { color: #4FB477; }
 .embed.end { border-left-color: #D8322A; } .embed .div { position: relative; height: 1.4em; display: grid; place-items: center; } .embed .div::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 3px; background: linear-gradient(90deg, #6A1410, #D8322A, #6A1410); }
 .embed .div i { position: relative; font-style: normal; width: 1.6em; height: 1.6em; border-radius: 50%; background: #8A1A12; border: 2px solid #D8322A; display: grid; place-items: center; font-size: .8em; }
+.toast { position: absolute; top: 3%; left: 50%; transform: translateX(-50%); display: flex; gap: .6em; align-items: center; background: #1B1C20; border: 1px solid #2E3036; border-radius: 10px; padding: .55em 1em; color: #fff; z-index: 6; font: 500 clamp(10px, 1.3vw, 15px) var(--body); animation: pop .3s; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+.toast i { font-style: normal; width: 1.6em; height: 1.6em; border-radius: 50%; border: 2px solid #4FB477; color: #4FB477; display: grid; place-items: center; font-weight: 800; } .toast div { display: grid; } .toast span { color: #C9C9CF; font-size: .9em; }
+.rad2 { width: 12.5em; font-size: .92em; margin: .2em auto 0; filter: drop-shadow(0 10px 18px rgba(0,0,0,.5)); animation: pop .3s; } .rtop { display: block; width: 100%; height: auto; margin-bottom: -1px; }
+.rbody { margin: 0 7%; background: linear-gradient(90deg, #0e0e10, #1a1a1d 12%, #141416 88%, #0b0b0d); border-radius: 0 0 1.1em 1.1em; padding: .1em .55em .7em; }
+.rscr { background: linear-gradient(#1f232b, #181b21); border: 1px solid #2c3038; border-radius: .55em; padding: .45em .75em .6em; color: #fff; display: grid; gap: .35em; font-family: Inter, system-ui, sans-serif; }
+.rsb { display: flex; justify-content: space-between; align-items: center; font: 600 .62em Inter, system-ui; letter-spacing: .02em; }
+.rmain { display: flex; justify-content: space-between; align-items: center; } .rmain > div { display: grid; } .rmain b { font: 800 1.75em Inter, system-ui; letter-spacing: -.01em; line-height: 1.05; } .rmain .fq { color: #9aa0a8; font: 500 1.15em Inter, system-ui; }
+.rrow2 { display: flex; justify-content: space-between; align-items: center; } .rpw { width: 2.1em; height: 2.1em; border-radius: 50%; background: #5d6066; display: grid; place-items: center; }
+.rr { display: flex; gap: .7em; align-items: center; } .rr button { background: none; border: 0; padding: .15em; cursor: pointer; position: relative; border-radius: 6px; display: grid; place-items: center; }
+.rr button em { display: none; } .rr .net { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; } .rr .net em { display: block; position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); font: 700 .55em Inter, system-ui; background: #000; color: #fff; padding: .25em .5em; border-radius: 4px; white-space: nowrap; font-style: normal; }
+.rcode { display: flex; gap: .5em; align-items: center; background: #262a31; border-radius: .35em; padding: .35em .55em; color: #8b9098; font: 500 .8em Inter, system-ui; }
 .game.err { animation: shake .35s; }
 .game.done { box-shadow: 0 0 0 3px var(--ok), 0 24px 60px rgba(0,0,0,.55); }
 .task { position: relative; display: grid; gap: .7em; user-select: none; -webkit-user-select: none; }
@@ -549,7 +560,7 @@ const camTo = (x, y, z, lx = 0, ly = 1.1, lz = 0) => { camera.position.set(x, y,
 // ---------- cenas ----------
 const S = [];
 const add = (act, title, dur, narr, setup, card = null) => S.push({ act, title, dur, narr, setup, card });
-const quiz = (act, title, game) => S.push({ act, title, dur: 2, narr: game.q, setup: game.type === 'hold' ? cprScene : game.type === 'hostage' ? hostageScene : game.type === 'aggr' ? aggrScene : game.type === 'resc' ? rescScene : game.type === 'gponto' ? gpScene : game.type === 'roupa' ? roupaScene : game.type === 'loja' || game.type === 'radio' ? lojaScene : game.type === 'veic' ? veicScene : cardScene(['', '#1F2B4E', '#4A3A1A', '#26402A'][act]), game });
+const quiz = (act, title, game) => S.push({ act, title, dur: 2, narr: game.q, setup: game.type === 'hold' ? cprScene : game.type === 'hostage' ? hostageScene : game.type === 'aggr' ? aggrScene : game.type === 'resc' ? rescScene : game.type === 'gponto' ? gpScene : game.type === 'roupa' ? roupaScene : game.type === 'loja' || game.type === 'radio' ? lojaScene : game.type === 'veic' ? veicScene : game.type === 'porta' ? doorScene : cardScene(['', '#1F2B4E', '#4A3A1A', '#26402A'][act]), game });
 
 // Cena de cartão: fundo 3D desfocado + recruta pensativo
 // reanimação: bombeiro ajoelhado faz compressões enquanto E está pressionado
@@ -727,6 +738,47 @@ function lojaScene() {
     d.g.getWorldPosition(v); v.y += 1.15; v.project(camera); DOC.scr = [(v.x + 1) / 2, (1 - v.y) / 2];
   };
 }
+// porta do vestiário: DOOR.step 0 fechada, 1 aberta, 2 entrando, 3 dentro, 4 fechada de novo
+const DOOR = { step: 0, ts: 0 };
+function doorScene() {
+  const g = room('#CFE0E0', '#7C8496', 16); Object.assign(DOOR, { step: 0, ts: performance.now() });
+  g.remove(g.children[1]); g.remove(g.children[1]); // tira parede e rodapé inteiros do room()
+  // parede com vão de porta (3 pedaços) + ambiente atrás
+  const wallHole = (ox, col) => { box(6.6, 6, .1, col, ox - 4.7, 3, -3, g); box(6.6, 6, .1, col, ox + 4.7, 3, -3, g); box(2.8, 3.4, .1, col, ox, 4.3, -3, g);
+    box(6.6, 1.1, .14, '#B7AE96', ox - 4.7, .55, -2.9, g); box(6.6, 1.1, .14, '#B7AE96', ox + 4.7, .55, -2.9, g); };
+  const back = (ox, floor, wall, lockers) => { box(6, .1, 5, floor, ox, -.05, -5.5, g); box(.1, 4, 5, wall, ox - 3, 2, -5.5, g); box(.1, 4, 5, wall, ox + 3, 2, -5.5, g); box(6, 4, .1, wall, ox, 2, -8, g);
+    if (lockers) for (let i = 0; i < 5; i++) { box(.9, 2.1, .5, '#3E4A45', ox - 2 + i * 1, 1.05, -7.6, g); box(.6, .12, .02, '#2A322F', ox - 2 + i * 1, 1.9, -7.34, g); }
+    else { for (let i = -1; i <= 1; i++) for (let j = 0; j < 3; j++) box(1.4, .01, 1.4, (i + j) % 2 ? '#5E6678' : '#8890A2', ox + i * 1.6, .01, -4.2 - j * 1.6, g);
+      box(6, 1.1, .14, '#B7AE96', ox, .55, -7.9, g); [-1, 1].forEach(sx => box(.14, 1.1, 5, '#B7AE96', ox + sx * 2.9, .55, -5.5, g));
+      box(2.2, .12, .55, '#8A5A2E', ox, .5, -7.4, g); [-.9, .9].forEach(dx => box(.08, .5, .45, '#3A3A40', ox + dx, .25, -7.4, g)); }
+    const l = new THREE.PointLight(0xfff4e0, .7, 7); l.position.set(ox, 3, -5.5); g.add(l); };
+  wallHole(0, '#CFE0E0'); back(0, '#6E7688', '#D7E4E2', true);
+  const mkDoor = (ox, oz) => { box(.14, 2.7, .3, '#B8742E', ox - 1.47, 1.35, oz, g); box(.14, 2.7, .3, '#B8742E', ox + 1.47, 1.35, oz, g); box(3.08, .14, .3, '#B8742E', ox, 2.72, oz, g);
+        return [-1, 1].map(sx => { const h = new THREE.Group(); h.position.set(ox + sx * 1.4, 0, oz + .05); g.add(h);
+      box(1.38, 2.55, .08, '#C9853C', -sx * .69, 1.28, 0, h); box(1.08, 2.2, .1, '#B97A36', -sx * .69, 1.28, 0, h);
+      cyl(.025, .025, .22, '#E8E8EC', -sx * 1.22, 1.2, .08, h, 12).rotation.z = Math.PI / 2; sph(.04, '#E8E8EC', -sx * 1.25, 1.08, .07, h); return h; }); };
+  // corredor (fora)
+  for (let i = -3; i <= 3; i++) box(1.5, .01, 1.5, i % 2 ? '#6E7688' : '#8890A2', i * 2, .01, .4, g);
+  const outL = mkDoor(0, -2.85);
+  // vestiário (dentro), montado ao lado
+  const IX = 40; box(12, .1, 10, '#6E7688', IX, -.05, 0, g); wallHole(IX, '#D7E4E2'); back(IX, '#7C8496', '#AFC2C4', false);
+  for (let i = 0; i < 4; i++) { box(.9, 2.2, .5, '#3E4A45', IX - 5 + i * .95, 1.1, -2.6, g); box(.6, .14, .02, '#2A322F', IX - 5 + i * .95, 1.95, -2.34, g); }
+  const inL = mkDoor(IX, -2.85);
+  const r = person('rec'); g.add(r.g);
+  return t => {
+    const k = DOOR.step, s = (performance.now() - DOOR.ts) / 1000;
+    const oOut = k === 1 ? ease(seg(s, 0, .8)) : k === 2 ? 1 : 0;
+    const oIn = k === 3 ? 1 : k === 4 ? 1 - ease(seg(s, 0, .8)) : 0;
+    outL.forEach((h, i) => h.rotation.y = (i ? -1 : 1) * oOut * 1.45); inL.forEach((h, i) => h.rotation.y = (i ? -1 : 1) * oIn * 1.45);
+    if (k === 2 && s > 1.8) { DOOR.step = 3; DOOR.ts = performance.now(); DOOR.onIn && DOOR.onIn(); }
+    let x = .9, z = 0, ry = Math.PI, walk = null;
+    if (k === 2) { const q = ease(seg(s, 0, 1.8)); x = lerp(.9, 0, q); z = lerp(0, -3.6, q); walk = t * 9; }
+    if (k >= 3) { x = IX + .95; z = -1.5; ry = Math.PI; }
+    r.g.position.set(x, 0, z); r.g.rotation.y = ry; pose(r, { walk, bob: walk == null ? idle(r, t) : 0, aR: DOOR.reach ? 1.2 : .08, fR: DOOR.reach ? 1 : 0 });
+    r.set(k >= 4 ? 'proud' : 'determined');
+    if (k >= 3) camTo(IX + 3.4, 2.5, 3.4, IX + 1.6, 1.3, -2.4); else camTo(3.4, 2.5, 4.4, 1.7, 1.3, -2.4);
+  };
+}
 function cardScene(col) { return () => { const g = room(col, '#2A2830'); const r = person('rec'); r.g.position.set(4.6, 0, 1); r.g.rotation.y = -.5; g.add(r.g); r.set('thinking'); emote(r, '?'); return t => { pose(r, { bob: idle(r, t), aR: .3 + .1 * Math.sin(t * 2) }); camTo(Math.sin(t * .2) * .3, 1.6, 7.5, 0, 1.4, 0); }; }; }
 
 // ===== ATO 1 =====
@@ -813,10 +865,11 @@ add(1, 'Bater o ponto', 7, 'Hora de começar. Primeiro, entre na call de voz da 
 });
 add(1, 'Cartão: Fluxo de patrulha', 10, 'Para entrar em serviço são cinco passos, nesta ordem: entre na call da cidade, deixe o fone ligado, inicie o ponto. Precisou sair, feche o ponto. Não vai patrulhar no dia, justifique pelo bot.', cardScene('#26402A'), { title: 'Fluxo de patrulha', color: '#4E8A52', lines: ['<b>1. Entrar na call</b> do canal de voz da cidade: LS, LV ou SF', '<b>2. Fone desmutado</b> — só é permitido mutar o microfone', '<b>3. Iniciar o ponto</b> pelo bot de bate-ponto', '<b>4. Precisou sair?</b> Feche o seu ponto', '<b>5. Não pode patrulhar no dia?</b> Justifique a falta pelo bot, qualquer que seja o motivo'], why: 'O ponto registra suas horas, e as horas contam para a promoção.' });
 quiz(1, "Tarefa: iniciar o plantão", {"type": "swipe", "kind": "Tarefa · Bater o ponto", "q": "Na call com o fone ligado? Agora abra o seu ponto no bot.", "why": "Call da cidade, fone desmutado e ponto aberto: suas horas começam a contar."});
+quiz(1, 'Tarefa: entrar no vestiário', {"type": "porta", "kind": "Tarefa · Vestiário", "q": "Ponto aberto. Agora entre no vestiário pela porta do corredor.", "why": "Abriu, entrou, fechou: mantenha sempre os portões do quartel fechados."});
 quiz(1, 'Tarefa: ponto no jogo', {"type": "gponto", "kind": "Tarefa · Ponto no jogo", "q": "Ponto aberto no Discord. Agora abra o ponto dentro do jogo, no vestiário.", "why": "Discord e jogo: os dois pontos abertos. Ao sair, feche os dois."});
 quiz(1, 'Tarefa: pegar farda', {"type": "roupa", "kind": "Tarefa · Pegar farda", "q": "Em serviço! Agora pegue a farda no vestiário.", "why": "Recruta usa a Tática ou o jaleco (Médico/Médica)."});
 add(1, 'Cartão: rádio e COPOM', 7, 'Em serviço, a comunicação é pelo rádio, na tecla J, e pelo COPOM, na tecla O. Use sempre o Código Q. Pelo menos um da patrulha responde ao COPOM. Nunca mute o áudio e nunca use o COPOM para conversa.', cardScene('#1F2B4E'), { title: 'Rádio e COPOM', color: '#3F6FB5', lines: ['<b>Rádio:</b> tecla J · <b>COPOM:</b> tecla O', '<b>Frequências:</b> Los Santos 01 · Las Venturas 02 · GOA (helicóptero) 03', 'Código Q obrigatório em toda transmissão', 'Pelo menos 1 da patrulha (PTR) responde ao COPOM', 'Proibido mutar o áudio em serviço ou usar o COPOM à paisana ou para conversa informal'], why: 'Código Q deixa a mensagem curta e clara; o COPOM é canal de emergência.' });
-quiz(1, 'Tarefa: radinho', {"type": "radio", "kind": "Tarefa · Radinho", "q": "Compre, equipe e configure o seu radinho.", "why": "Rádio na frequência 01 (Los Santos). Para falar, segure CapsLock."});
+quiz(1, 'Tarefa: radinho', {"type": "radio", "kind": "Tarefa · Radinho", "q": "Compre, equipe e configure o seu radinho.", "why": "Rádio na frequência 01 (Los Santos). Para falar no rádio, use o CapsLock."});
 quiz(1, 'Tarefa: responder o COPOM', {"type": "copom", "kind": "Tarefa · Responder o COPOM", "q": "O COPOM está chamando os bombeiros de Los Santos. Responda pelo chat do COPOM.", "why": "QAP = “na escuta”. Pelo menos 1 da patrulha sempre responde ao COPOM, usando o Código Q."});
 add(1, 'Hospital lotado', 8, 'No hospital ficam no máximo dois bombeiros na call, contando oficiais. Chegou e está cheio? Vá para a patrulha. E fardado, nunca fique ausente.', () => {
   const g = room('#F0E4E4', '#B7A6A6');
@@ -1049,6 +1102,23 @@ add(3, 'Advertências', 8, 'Cada erro tem peso. Um banimento no servidor ou uma 
 });
 add(3, 'Cartão: disciplina e blacklist', 9, 'Quem sai da corporação por punição entra na blacklist, com tempo de exílio conforme a falta. As penalidades se somam.', cardScene('#5A2622'), { title: 'Matriz disciplinar', color: '#B8362C', lines: ['1 banimento no servidor = 1 ADV · conduta inadequada = 1 ADV', '3 ADVs = avaliação, perda de promoção ou rebaixamento · <b>5 em 30 dias = exoneração</b>', '<b>Blacklist:</b> 30 dias saída irregular · 30–90 ilegalidades · 60–120 taser irregular', '60–180 dias RDM · 120 dias Anti-RP (RDM em massa) · 360 dias Dark-RP', 'Penalidades são cumulativas · exoneração de oficial exige homologação do comando'], why: 'Dark-RP inclui racismo e bullying: é a falta mais grave, 360 dias.' });
 add(3, 'Cartão: upamento', 9, 'O upamento é semanal, de segunda a domingo. Quanto mais horas de ponto, mais patentes você sobe de uma vez.', cardScene('#26402A'), { title: 'Upamento semanal (seg 00:00 a dom 23:59)', color: '#4E8A52', lines: ['<b>+1 patente:</b> Aluno 6h · Soldado, Cabo, 3º Sgt 8h', '2º Sgt, 1º Sgt, Subtenente 10h · Aspirante, 2º e 1º Tenente 14h', '<b>+2 patentes:</b> Aluno, Soldado, Cabo 24h · 3º, 2º, 1º Sgt 30h', '<b>+3 patentes:</b> Aluno e Soldado 48h · 3º e 2º Sgt 50h', 'Conduta exemplar conta tanto quanto as horas'], why: 'Ponto aberto e farda certa são o que transforma horas em promoção.' });
+add(3, 'Metas de upamento normal', 16, 'Primeiro, a meta normal: cumprindo as horas da semana, você sobe uma patente. De aluno a soldado: seis horas. De soldado até segundo sargento: oito horas. De segundo sargento até aspirante: dez horas. De aspirante até capitão: quatorze horas.', () => {
+  const g = room('#1F2B3E', '#2E3A4E', 22);
+  const T = [['ALUNO → SOLDADO', '6 h', '#5E6A80'], ['SOLDADO → 2º SGT', '8 h', '#4E8A52'], ['2º SGT → ASPIRANTE', '10 h', '#C98A1E'], ['ASPIRANTE → CAPITÃO', '14 h', '#B8362C']];
+  const X = i => -3.9 + i * 2.1, Y = i => .3 + i * .55;
+  const labs = T.map(([a, h, c], i) => { box(2, Y(i), 2, c, X(i), Y(i) / 2, 0, g); const sp = textSprite(a, { size: 256, scale: 1.9, font: '800 40px "Barlow Condensed", system-ui' }); sp.position.set(X(i), Y(i) + .55, 1.05); g.add(sp);
+    const hs = textSprite(h, { size: 256, scale: 1.6, color: '#F2C94C', font: '800 110px "Barlow Condensed", system-ui' }); hs.position.set(X(i), Y(i) + 2.6, -.2); hs.material.opacity = 0; g.add(hs); return [sp, hs]; });
+  const r = person('rec'); g.add(r.g); let cur = -2, t0k = 0;
+  return t => {
+    const k = Math.min(3, sentIdx - 1); if (k !== cur) { cur = k; t0k = t; } const a = t - t0k;
+    const from = Math.max(0, k - 1), to = Math.max(0, k), f = k >= 1 ? ease(seg(a, .2, 1)) : 0;
+    r.g.position.set(k < 0 ? X(0) - 1.6 : lerp(X(from), X(to), f), k < 0 ? 0 : lerp(Y(from), Y(to), f) + Math.sin(f * Math.PI) * .5, 0); r.g.rotation.y = .5;
+    const moving = f > 0 && f < 1; pose(r, { walk: moving ? t * 10 : null, bob: idle(r, t), aR: k >= 0 && !moving && a < 2.2 ? 2.7 : .08 });
+    r.set(k >= 0 ? 'proud' : 'determined'); emote(r, k >= 0 && !moving && a < 2.2 ? '⭐' : null);
+    labs.forEach(([sp, hs], i) => { const on = i === k; hs.material.opacity = on ? ease(seg(a, .4, .9)) : i < k ? .35 : 0; hs.scale.setScalar(1.6 * (on ? 1 + .08 * Math.sin(t * 4) : .8)); sp.material.opacity = i <= k ? 1 : .45; });
+    camTo(-.6, 3, 11, -.6, 2, 0); mark(k >= 3 && a > 1.2 ? 'ok' : null);
+  };
+}, null);
 add(3, 'Metas de upamento: duplo e triplo', 20, 'Agora as metas especiais. O ciclo vai de segunda, zero hora, a domingo, vinte e três e cinquenta e nove. Com a meta normal, você sobe uma patente: aluno com seis horas. Upamento duplo sobe duas patentes de uma vez: aluno, soldado e cabo com vinte e quatro horas; terceiro, segundo e primeiro sargento com trinta horas. Upamento triplo sobe três: aluno e soldado com quarenta e oito horas; terceiro e segundo sargento com cinquenta horas. A partir de subtenente, só existe a meta normal. E em todos os casos a conduta precisa ser exemplar.', () => {
   const g = room('#1F2B3E', '#2E3A4E', 22);
   const ranks = ['ALUNO', 'SOLDADO', 'CABO', '3º SGT'], cols = ['#5E6A80', '#4E8A52', '#C98A1E', '#B8362C'];
@@ -1098,7 +1168,7 @@ const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls)
 const later = (f, ms) => taskTimers.push(setTimeout(f, ms));
 const every = (f, ms) => taskTimers.push(setInterval(f, ms));
 function clearTask() { if (stepObs) { stepObs.disconnect(); stepObs = null; } radioKeys = null; document.querySelectorAll('.hud .hot').forEach(h => h.remove()); $('stage').classList.remove('cur'); taskTimers.forEach(t => { clearTimeout(t); clearInterval(t); }); taskTimers = []; if (holdSt) holdSt.cancel(); holdSt = null; }
-function hideGame() { document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
+function hideGame() { window.__talk = null; document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
 // arrastar com ponteiro (mouse e toque); onDrop recebe o elemento-alvo sob o dedo
 function drag(item, onDrop, onMove) {
   item.style.touchAction = 'none';
@@ -1120,7 +1190,7 @@ const BOTEMB = link => `<div class="dsc emb2"><div class="eb2"><div class="et">�
         <div class="el">🧭 Painel Dashboard de desempenho:</div>${link ? '<a href="#" class="vp" id="vp">Ver Painel</a><span class="vph" aria-hidden="true">👈 clique aqui</span>' : '<span class="vp0">Ver Painel</span>'}
         <div class="ban"><span>🚒</span><b>BOMBEIROS BGR</b><span>🛡️</span></div></div><div class="logo">🚒<small>BGR</small></div></div>`;
 function renderGame(G, i) {
-  clearTask(); document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
+  clearTask(); window.__talk = null; document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio', 'porta'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
   $('gk').textContent = G.kind; $('gs').textContent = score + ' pts'; $('gq').textContent = G.q;
   const O = $('go'), F = $('gf'), N = $('gn'); O.innerHTML = ''; O.className = 'task t-' + G.type; F.innerHTML = G.hint || ''; F.className = 'fb'; N.hidden = true; N.textContent = 'Continuar ▶';
   let tries = 0, over = false;
@@ -1323,7 +1393,7 @@ function renderGame(G, i) {
     $('mpo').onclick = open; holdSt = { go: open, stop: () => {}, cancel: () => {} };
   }
   if (G.type === 'radio') {
-    DOC.happy = 0; const nick = window.__nick || 'Fulano'; let st = 0; const key = { m: null, i: null, j: null, caps: null };
+    DOC.happy = 0; const nick = window.__nick || 'Fulano'; let st = 0; const key = { m: null, b: null, j: null, caps: null };
     const step = (h) => { $('rs').innerHTML = h; };
     O.innerHTML = `<div class="gpi" id="rs"></div><div id="rw"></div>`;
     const hot = el('button', 'hot', '<span>🖱️ clique na doutora</span>'); hot.hidden = true; document.querySelector('.hud').append(hot); every(() => { hot.style.left = DOC.scr[0] * 100 + '%'; hot.style.top = DOC.scr[1] * 100 + '%'; }, 50);
@@ -1340,26 +1410,42 @@ function renderGame(G, i) {
       W.querySelectorAll('.buy0').forEach(b => b.onclick = () => { if (b.dataset.k !== 'rad') return miss('Agora é o rádio: clique em Comprar no Rádio.'); st = 3; step('<p>4. Quantidade <b>1</b> e clique em <b>Confirmar</b>.</p>');
         W.innerHTML = `<div class="gsm conf"><b>Confirmar</b><small>Digite a quantidade que deseja comprar</small><div class="qty"><button id="qm">−</button><b id="qv">1</b><button id="qp">+</button></div><button class="gsb" id="qc">Confirmar</button></div>`; let q = 1;
         $('qp').onclick = () => { q++; $('qv').textContent = q; }; $('qm').onclick = () => { if (q > 1) q--; $('qv').textContent = q; };
-        $('qc').onclick = () => { if (q !== 1) return miss('Um rádio basta. Deixe a quantidade em 1.'); st = 4; DOC.happy = 2; W.innerHTML = ''; step('<p>✓ Rádio comprado. 5. Aperte <kbd>I</kbd> para abrir o inventário.</p><button class="act" id="r5">I · Abrir inventário</button>'); $('r5').onclick = key.i; }; }); };
+        $('qc').onclick = () => { if (q !== 1) return miss('Um rádio basta. Deixe a quantidade em 1.'); st = 4; DOC.happy = 2; W.innerHTML = ''; step('<p>✓ Rádio comprado. 5. Aperte <kbd>B</kbd> para abrir o inventário.</p><button class="act" id="r5">B · Abrir inventário</button>'); $('r5').onclick = key.b; }; }); };
     // 5-6. inventário
-    key.i = () => { if (st !== 4) return; st = 5; step('<p>6. Clique com o <b>botão direito</b> no radinho e escolha <b>Equipar</b>.</p>');
+    key.b = () => { if (st !== 4) return; st = 5; step('<p>6. Clique com o <b>botão direito</b> no radinho e escolha <b>Equipar</b>.</p>');
       W.innerHTML = `<div class="gsm inv"><div class="ivh"><b>Meu Inventário</b><span class="kg">1/50<br>KG</span></div><div class="ivg">${Array.from({ length: 15 }, (_, k) => k ? '<i></i>' : '<i class="rd" id="rdi" tabindex="0">📻</i>').join('')}</div><div class="ivl">🔒 <b>Espaços bloqueados :(</b></div><div class="ctx" id="ctx" hidden><button id="eq">Equipar</button></div></div>`;
       const rd = $('rdi'), menu = () => { $('ctx').hidden = false; };
       rd.oncontextmenu = e => { e.preventDefault(); menu(); }; rd.onclick = () => miss('Use o botão direito do mouse no radinho.');
       rd.addEventListener('keydown', e => { if (e.key === 'ContextMenu' || (e.shiftKey && e.key === 'F10')) { e.preventDefault(); menu(); } });
       $('eq').onclick = () => { st = 6; W.innerHTML = ''; step('<p>✓ Radinho equipado. 7. Aperte <kbd>J</kbd> para abrir o radinho.</p><button class="act" id="r7">J · Abrir radinho</button>'); $('r7').onclick = key.j; }; };
     // 7-9. radinho
-    key.j = () => { if (st !== 6) return; st = 7; step('<p>8. Clique no botão <b>Mudar rede</b> (ícone vermelho).</p>');
-      W.innerHTML = `<div class="rdev"><div class="ant"></div><div class="scr"><div class="sb"><span>▮▮▮</span><span>VOL: 100%</span><span>▭</span></div><b id="rnet">LIVRE</b><span id="rfq" class="fq">0</span><div class="rrow"><span class="pw">⏻</span><button class="net" id="rnb" title="Mudar rede">📶<em>MUDAR REDE</em></button><span>🔊</span></div><div id="rfw"></div></div></div>`;
+    key.j = () => { if (st !== 6) return; st = 7; step('<p>8. Clique no botão <b>Mudar rede</b> (ícone de rede, destacado).</p>');
+      const ic = { sig: '<svg viewBox="0 0 16 12" width="1.1em"><rect x="0" y="8" width="3" height="4" fill="#fff"/><rect x="4.3" y="5.5" width="3" height="6.5" fill="#fff"/><rect x="8.6" y="3" width="3" height="9" fill="#fff"/><rect x="12.9" y="0" width="3" height="12" fill="#fff"/></svg>',
+        bat: '<svg viewBox="0 0 22 11" width="1.3em"><rect x=".7" y=".7" width="18" height="9.6" rx="2" fill="none" stroke="#fff" stroke-width="1.3"/><rect x="2.5" y="2.5" width="12" height="6" rx="1" fill="#fff"/><rect x="19.5" y="3.5" width="2" height="4" rx=".8" fill="#fff"/></svg>',
+        wave: '<svg viewBox="0 0 30 20" width="1.9em"><g stroke="#cfd3da" stroke-width="2.2" stroke-linecap="round"><path d="M2 7v6M7 3v14M12 6v8M17 1v18M22 5v10M27 8v4"/></g></svg>',
+        pwr: '<svg viewBox="0 0 24 24" width="1.2em"><path d="M12 3v8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M6.3 7.2a7.5 7.5 0 1 0 11.4 0" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>',
+        net: '<svg viewBox="0 0 24 20" width="1.25em"><g fill="#d6d9df"><rect x="9" y="1" width="6" height="5" rx="1"/><rect x="1" y="14" width="6" height="5" rx="1"/><rect x="9" y="14" width="6" height="5" rx="1"/><rect x="17" y="14" width="6" height="5" rx="1"/></g><path d="M12 6v4M4 14v-4h16v4M12 10v4" stroke="#d6d9df" stroke-width="1.6" fill="none"/></svg>',
+        spk: '<svg viewBox="0 0 24 20" width="1.2em"><path d="M2 7h4l5-4v14l-5-4H2z" fill="#d6d9df"/><path d="M15 6.5a5 5 0 0 1 0 7M18 4a8.5 8.5 0 0 1 0 12" stroke="#d6d9df" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>',
+        gear: '<svg viewBox="0 0 24 24" width="1.1em"><path fill="#b9bdc5" d="M10.3 2h3.4l.5 2.6 1.9.8 2.2-1.5 2.4 2.4-1.5 2.2.8 1.9 2.6.5v3.4l-2.6.5-.8 1.9 1.5 2.2-2.4 2.4-2.2-1.5-1.9.8-.5 2.6h-3.4l-.5-2.6-1.9-.8-2.2 1.5-2.4-2.4 1.5-2.2-.8-1.9L2 13.7v-3.4l2.6-.5.8-1.9-1.5-2.2 2.4-2.4 2.2 1.5 1.9-.8zM12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/></svg>' };
+      W.innerHTML = `<div class="rad2"><svg class="rtop" viewBox="0 0 200 120" preserveAspectRatio="xMidYMax meet">
+          <defs><linearGradient id="kb" x1="0" x2="1"><stop offset="0" stop-color="#0c0c0e"/><stop offset=".5" stop-color="#2c2c30"/><stop offset="1" stop-color="#0c0c0e"/></linearGradient><linearGradient id="an" x1="0" x2="1"><stop offset="0" stop-color="#0e0e10"/><stop offset=".45" stop-color="#34343a"/><stop offset="1" stop-color="#0e0e10"/></linearGradient></defs>
+          <rect x="146" y="0" width="16" height="96" rx="7" fill="url(#an)"/><rect x="142" y="86" width="24" height="14" rx="3" fill="#18181b"/>
+          ${[52, 98].map(x => `<rect x="${x - 15}" y="70" width="30" height="34" rx="6" fill="url(#kb)"/>${[0, 1, 2, 3, 4, 5].map(i => `<rect x="${x - 13 + i * 5}" y="72" width="2" height="30" fill="#000" opacity=".55"/>`).join('')}<rect x="${x - 12}" y="66" width="24" height="7" rx="3" fill="#1c1c20"/>`).join('')}
+          <path d="M14 104 Q14 96 24 96 H176 Q186 96 186 104 V120 H14z" fill="#121214"/><rect x="40" y="106" width="34" height="8" rx="2" fill="#1d1d21"/><rect x="128" y="106" width="22" height="8" rx="2" fill="#1d1d21"/></svg>
+        <div class="rbody"><div class="rscr">
+          <div class="rsb">${ic.sig}<span>VOL: 100%</span>${ic.bat}</div>
+          <div class="rmain"><div><b id="rnet">LIVRE</b><span id="rfq" class="fq">0</span></div>${ic.wave}</div>
+          <div class="rrow2"><span class="rpw">${ic.pwr}</span><span class="rr"><button class="net" id="rnb" title="Mudar rede" aria-label="Mudar rede">${ic.net}<em>MUDAR REDE</em></button><span>${ic.spk}</span></span></div>
+          <div id="rfw"><div class="rcode">${ic.gear}<span>Código...</span></div></div></div></div></div>`;
       $('rnb').onclick = () => { if (st !== 7) return; st = 8; $('rnet').textContent = 'BOMB'; $('rnb').classList.remove('net'); step('<p>9. Clique em <b>Mudar frequência</b> e escolha <b>1</b> (Los Santos).</p>');
         $('rfw').innerHTML = `<div class="fql" id="fql" hidden><button>1</button><button>2</button><button>3</button></div><button class="fqb" id="fqb">MUDAR FREQUÊNCIA ⌃</button>`;
         $('fqb').onclick = () => { $('fql').hidden = !$('fql').hidden; };
         $('fql').querySelectorAll('button').forEach((b, j) => b.onclick = () => { $('fql').hidden = true; if (j) return miss(j === 1 ? 'A frequência 02 é de Las Venturas. Los Santos é a 01.' : 'A frequência 03 é do GOA (helicóptero). Los Santos é a 01.');
           st = 9; $('rfq').textContent = '01 · Los Santos'; $('fqb').remove();
           const hud = el('div', 'rhud', `<div class="st"><i>❤</i><i>🛡</i><i>🍴</i><i>💧</i></div><b>$144.716</b><small>7.000 pontos</small>${['BOMB|SDD.marisantts(12555)', 'BOMB|ALN.Cruz(9124)', `BOMB|ALN.${nick}(4271)`, 'BOMB|sdd.russa(3173)'].map((n, k) => `<p class="${k === 2 ? 'me' : ''}">📻 ${n}</p>`).join('')}`); document.querySelector('.hud').append(hud);
-          step('<p>✓ Conectados na frequência aparecem ao lado da HUD. 10. <b>Segure CapsLock</b> para falar no rádio.</p><button class="act" id="rtalk">⇪ Segure para falar</button>');
-          const talk = on => { if (st !== 9 && !(st === 10 && !on)) return; hud.classList.toggle('talk', on); if (on) { st = 10; later(() => { if (hud.classList.contains('talk')) { st = 11; finish(); } }, 900); } };
-          key.caps = talk; const tb = $('rtalk'); tb.addEventListener('pointerdown', e => { e.preventDefault(); talk(true); }); ['pointerup', 'pointerleave'].forEach(ev => tb.addEventListener(ev, () => { if (!over) talk(false); })); }); }; };
+          step('<p>✓ Conectados na frequência aparecem ao lado da HUD. 10. <b>Aperte CapsLock</b> para falar no rádio.</p><button class="act" id="rtalk">⇪ Falar no rádio</button>');
+          let tt = 0; const talk = () => { hud.classList.add('talk'); clearTimeout(tt); tt = setTimeout(() => hud.classList.remove('talk'), 1600); if (!over) { st = 11; finish(); } };
+          key.caps = talk; window.__talk = talk; $('rtalk').onclick = talk; }); }; };
     radioKeys = key;
   }
   if (G.type === 'loja') {
@@ -1382,6 +1468,20 @@ function renderGame(G, i) {
         $('qp').onclick = () => { if (qty >= 4) return miss('Limite atingido: no máximo 4 kits médicos por inventário.'); qty++; upd(); };
         $('qm').onclick = () => { if (qty > 1) { qty--; upd(); } };
         $('qc').onclick = () => { if (over) return; if (qty < 4) return miss(`Você está comprando ${qty}. Leve o máximo permitido: 4 kits.`); DOC.happy = 1; $('qc').textContent = '4 kits no inventário ✓'; $('qc').disabled = true; finish(); }; }); };
+  }
+  if (G.type === 'porta') {
+    const toast = msg => { document.querySelectorAll('.hud .toast').forEach(x => x.remove()); const tt = el('div', 'toast', `<i>✓</i><div><b>Sucesso!</b><span>${msg}</span></div>`); document.querySelector('.hud').append(tt); later(() => tt.remove(), 3800); };
+    const st = h => { $('gpi').innerHTML = h; };
+    O.innerHTML = `<div class="gpi" id="gpi"></div>`;
+    const press = () => { if (over) return;
+      if (DOOR.step === 0) { DOOR.reach = 1; later(() => DOOR.reach = 0, 500); DOOR.step = 1; DOOR.ts = performance.now(); toast('Portão aberto com sucesso!'); st('<p>2. Porta aberta. Agora entre no vestiário.</p><button class="act" id="pin">🚶 Entrar no vestiário</button>'); $('pin').onclick = enter; }
+      else if (DOOR.step === 3) { DOOR.reach = 1; later(() => DOOR.reach = 0, 500); DOOR.step = 4; DOOR.ts = performance.now(); toast('Portão fechado com sucesso!'); st('<p>Portão fechado.</p>'); finish(); }
+      else if (DOOR.step === 1) miss('A porta já está aberta: entre no vestiário.'); };
+    const enter = () => { if (DOOR.step !== 1) return; DOOR.step = 2; DOOR.ts = performance.now(); st('<p>Entrando no vestiário…</p>'); };
+    DOOR.onIn = () => st('<p>3. Você entrou. Aperte <kbd>E</kbd> ao lado da porta para fechar.</p><button class="act" id="pe2">E · Fechar porta</button>');
+    st('<p>1. Ao lado da porta, aperte <kbd>E</kbd> para abrir.</p><button class="act" id="pe">E · Abrir porta</button>');
+    O.addEventListener('click', e => { if (e.target.id === 'pe' || e.target.id === 'pe2') press(); });
+    holdSt = { go: press, stop: () => {}, cancel: () => { document.querySelectorAll('.hud .toast').forEach(x => x.remove()); } };
   }
   if (G.type === 'veic') {
     O.innerHTML = `<div class="gpi" id="gpi"><p>1. Vá até o <b>🚘 símbolo do veículo</b> na garagem.</p><button class="act" id="gpw">🚶 Andar até o símbolo</button></div><div id="gpm"></div>`;
@@ -1438,12 +1538,12 @@ function renderGame(G, i) {
 function watchSteps(G) {
   const O = $('go'), cur = () => { const p = O.querySelector('.gpi p'); return p ? cleanTxt(p.innerHTML) : ''; };
   lastStep = cur(); G._first = lastStep;
-  stepObs = new MutationObserver(() => { const t = cur(); if (t && t !== lastStep && !/^Andando/.test(t)) { lastStep = t; say(t); } });
+  stepObs = new MutationObserver(() => { const t = cur(); if (t && t !== lastStep && !/^(Andando|Entrando|Portão fechado)/.test(t)) { lastStep = t; say(t); } });
   stepObs.observe(O, { childList: true, subtree: true });
 }
 $('gn').onclick = () => { if (S[idx].game && S[idx].game.type === 'result') { score = 0; answered = {}; $('score').textContent = ''; load(0); } else load(idx + 1); if (!playing) setPlay(true); };
-document.addEventListener('keydown', e => { if (!gameEl.hidden && radioKeys && !e.repeat) { const k = e.key.toLowerCase(); if (k === 'capslock' && radioKeys.caps) { radioKeys.caps(true); return; } if (radioKeys[k]) { e.preventDefault(); radioKeys[k](); return; } } });
-document.addEventListener('keyup', e => { if (radioKeys && e.key === 'CapsLock' && radioKeys.caps) radioKeys.caps(false); });
+document.addEventListener('keydown', e => { if (!gameEl.hidden && radioKeys && !e.repeat) { const k = e.key.toLowerCase(); if (k === 'capslock' && radioKeys.caps) { radioKeys.caps(); return; } if (radioKeys[k]) { e.preventDefault(); radioKeys[k](); return; } } });
+document.addEventListener('keydown', e => { if (e.key === 'CapsLock' && !radioKeys && window.__talk && !gameEl.hidden) window.__talk(); });
 document.addEventListener('keydown', e => { if (gameEl.hidden || e.repeat || radioKeys) return; const ty = S[idx].game && S[idx].game.type, key = e.key.toLowerCase(); if (key === (ty === 'loja' ? 'm' : ty === 'copom' ? 'o' : 'e') && holdSt) { e.preventDefault(); holdSt.go(); } });
 document.addEventListener('keyup', e => { if (e.key.toLowerCase() === 'e' && holdSt) holdSt.stop(); });
 // ---------- player ----------
