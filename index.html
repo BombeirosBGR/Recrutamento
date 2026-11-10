@@ -116,6 +116,7 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .result .rank { font-family: var(--display); font-weight: 800; font-size: 1.6em; letter-spacing: .06em; text-transform: uppercase; }
 .score { position: absolute; top: 3%; left: 50%; transform: translateX(-50%); font: 600 clamp(10px, 1.4vw, 15px) var(--body); color: var(--yellow); background: rgba(18,19,24,.72); padding: .3em .8em; border-radius: 999px; font-variant-numeric: tabular-nums; }
 .score:empty { display: none; }
+.result .rdt { margin-top: .5em; font-size: .9em; opacity: .85; }
 .nk { display: grid; gap: .3em; } .nk span { font-weight: 600; color: var(--muted); font-size: .9em; }
 .nk input { font: 600 1.3em var(--body); color: #fff; background: #15161C; border: 2px solid #3A3D4C; border-radius: 10px; padding: .45em .7em; outline: none; }
 .nk input:focus { border-color: var(--yellow); box-shadow: 0 0 0 3px rgba(242,201,76,.2); }
@@ -1240,12 +1241,15 @@ quiz(3, 'Resultado do treinamento', { type: 'result', kind: 'Resultado', q: 'Tre
 // ---------- tarefas (minigames) ----------
 const cleanTxt = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent.replace(/(^|\. |✓ )\d+\.\s/g, '$1').replace(/[“”✓]/g, '').replace(/\p{Extended_Pictographic}\uFE0F?/gu, '').replace(/\s+/g, ' ').trim(); };
 let stepObs = null, lastStep = '';
+// registro protegido: pontos guardados em closure, 1 vez por tarefa, só 50 ou 100
+const LEDGER = (() => { const m = new Map(); return Object.freeze({ add: (i, p) => { if (!m.has(i) && (p === 50 || p === 100) && S[i] && S[i].game && S[i].game.type !== 'result') m.set(i, p); }, sum: () => [...m.values()].reduce((a, b) => a + b, 0), n: () => m.size, reset: () => m.clear() }); })();
+let resultGuard = null;
 let score = 0, answered = {}, holdSt = null, taskTimers = [], radioKeys = null;
 const gameEl = $('game'), TASKS = () => S.filter(x => x.game && x.game.type !== 'result'), MAXPTS = () => TASKS().length * 100;
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 const later = (f, ms) => taskTimers.push(setTimeout(f, ms));
 const every = (f, ms) => taskTimers.push(setInterval(f, ms));
-function clearTask() { if (stepObs) { stepObs.disconnect(); stepObs = null; } radioKeys = null; document.querySelectorAll('.hud .hot').forEach(h => h.remove()); $('stage').classList.remove('cur'); taskTimers.forEach(t => { clearTimeout(t); clearInterval(t); }); taskTimers = []; if (holdSt) holdSt.cancel(); holdSt = null; }
+function clearTask() { if (resultGuard) { resultGuard.disconnect(); resultGuard = null; } if (stepObs) { stepObs.disconnect(); stepObs = null; } radioKeys = null; document.querySelectorAll('.hud .hot').forEach(h => h.remove()); $('stage').classList.remove('cur'); taskTimers.forEach(t => { clearTimeout(t); clearInterval(t); }); taskTimers = []; if (holdSt) holdSt.cancel(); holdSt = null; }
 function stopSiren() { const ac = window.__sirAC; window.__sirAC = null; if (ac) try { ac.close(); } catch (e) {} }
 function hideGame() { stopSiren(); document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); window.__talk = null; document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
 // arrastar com ponteiro (mouse e toque); onDrop recebe o elemento-alvo sob o dedo
@@ -1273,7 +1277,7 @@ function renderGame(G, i) {
   $('gk').textContent = G.kind; $('gs').textContent = score + ' pts'; $('gq').textContent = G.q;
   const O = $('go'), F = $('gf'), N = $('gn'); O.innerHTML = ''; O.className = 'task t-' + G.type; F.innerHTML = G.hint || ''; F.className = 'fb'; N.hidden = true; N.textContent = 'Continuar ▶';
   let tries = 0, over = false;
-  const finish = () => { if (over) return; over = true; clearTask(); if (!(i in answered)) { answered[i] = 1; score += tries ? 50 : 100; } $('gs').textContent = score + ' pts'; $('score').textContent = '★ ' + score + ' pts';
+  const finish = () => { if (over) return; over = true; clearTask(); if (!(i in answered)) { answered[i] = 1; score += tries ? 50 : 100; LEDGER.add(i, tries ? 50 : 100); } $('gs').textContent = score + ' pts'; $('score').textContent = '★ ' + score + ' pts';
     F.innerHTML = '<b>TAREFA CONCLUÍDA!</b> ' + G.why; say('Tarefa concluída! ' + G.why); F.className = 'fb ok'; N.hidden = false; N.focus({ preventScroll: true }); mark('ok'); gameEl.classList.add('done'); later(() => gameEl.classList.remove('done'), 900); };
   const miss = msg => { if (over) return; tries++; F.innerHTML = '<b>Ops!</b> ' + msg; say(cleanTxt(msg)); F.className = 'fb bad'; mark('bad'); gameEl.classList.remove('err'); void gameEl.offsetWidth; gameEl.classList.add('err'); later(() => { if (!over) mark(null); }, 700); };
 
@@ -1676,8 +1680,15 @@ function renderGame(G, i) {
     holdSt = { go, stop, cancel: () => { done = true; cancelAnimationFrame(raf); } };
   }
   if (G.type === 'result') {
-    const max = MAXPTS(), pct = max ? score / max : 0, rank = pct >= .9 ? 'Comandante do plantão' : pct >= .7 ? 'Sargento de campo' : pct >= .4 ? 'Soldado em formação' : 'Aluno: revise e refaça';
-    O.innerHTML = `<div class="result"><div class="big">${score} / ${max}</div><div class="rank">${rank}</div><div>${Object.keys(answered).length} de ${TASKS().length} tarefas concluídas</div></div>`;
+    const pts = LEDGER.sum(); score = pts; const max = MAXPTS(), pct = max ? pts / max : 0, rank = pct >= .9 ? 'Comandante do plantão' : pct >= .7 ? 'Sargento de campo' : pct >= .4 ? 'Soldado em formação' : 'Aluno: revise e refaça';
+    const dt = new Date(), when = dt.toLocaleDateString('pt-BR') + ' às ' + dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const html = `<div class="result"><div class="big">${pts} / ${max}</div><div class="rank">${rank}</div><div>${LEDGER.n()} de ${TASKS().length} tarefas concluídas</div><div class="rdt">📅 Concluído em ${when}</div></div>`;
+    O.innerHTML = html; const orig = O.innerHTML;
+    // bloqueio: qualquer edição manual (F12) volta na hora para a nota original
+    if (resultGuard) resultGuard.disconnect();
+    resultGuard = new MutationObserver(() => { if (S[idx].game && S[idx].game.type === 'result') { resultGuard.disconnect(); if (O.innerHTML !== orig) O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } });
+    resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true });
+    every(() => { if (S[idx].game && S[idx].game.type === 'result' && O.innerHTML !== orig) { resultGuard.disconnect(); O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } }, 300);
     F.innerHTML = 'Cada tarefa vale 100 pontos sem erro e 50 depois de um erro.'; N.hidden = false; N.textContent = '↺ Refazer treinamento';
   }
 }
@@ -1687,7 +1698,7 @@ function watchSteps(G) {
   stepObs = new MutationObserver(() => { const t = cur(); if (t && t !== lastStep && !/^(Andando|Entrando|Portão fechado)/.test(t)) { lastStep = t; say(t); } });
   stepObs.observe(O, { childList: true, subtree: true });
 }
-$('gn').onclick = () => { if (S[idx].game && S[idx].game.type === 'result') { score = 0; answered = {}; $('score').textContent = ''; load(0); } else load(idx + 1); if (!playing) setPlay(true); };
+$('gn').onclick = () => { if (S[idx].game && S[idx].game.type === 'result') { score = 0; answered = {}; LEDGER.reset(); $('score').textContent = ''; load(0); } else load(idx + 1); if (!playing) setPlay(true); };
 document.addEventListener('keydown', e => { if (!gameEl.hidden && radioKeys && !e.repeat) { const k = e.key.toLowerCase(); if (k === 'capslock' && radioKeys.caps) { radioKeys.caps(); return; } if (radioKeys[k]) { e.preventDefault(); radioKeys[k](); return; } } });
 document.addEventListener('keydown', e => { if (e.key === 'CapsLock' && !radioKeys && window.__talk && !gameEl.hidden) window.__talk(); });
 document.addEventListener('keydown', e => { if (gameEl.hidden || e.repeat || radioKeys) return; const ty = S[idx].game && S[idx].game.type, key = e.key.toLowerCase(); if (key === (ty === 'loja' || ty === 'venda' ? 'm' : ty === 'copom' ? 'o' : ty === 'sirene' ? 'h' : 'e') && holdSt) { e.preventDefault(); holdSt.go(); } });
