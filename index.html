@@ -249,6 +249,40 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .rr { display: flex; gap: .7em; align-items: center; } .rr button { background: none; border: 0; padding: .15em; cursor: pointer; position: relative; border-radius: 6px; display: grid; place-items: center; }
 .rr button em { display: none; } .rr .net { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; } .rr .net em { display: block; position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); font: 700 .55em Inter, system-ui; background: #000; color: #fff; padding: .25em .5em; border-radius: 4px; white-space: nowrap; font-style: normal; }
 .rcode { display: flex; gap: .5em; align-items: center; background: #262a31; border-radius: .35em; padding: .35em .55em; color: #8b9098; font: 500 .8em Inter, system-ui; }
+.vbar { position: absolute; left: 28%; bottom: 6%; transform: translateX(-50%); display: flex; align-items: center; gap: .35em; background: rgba(24,24,27,.94); border: 1px solid #4A4A52; border-radius: 12px; padding: .45em .7em; z-index: 5; pointer-events: auto; font-size: clamp(12px, 1.9vw, 22px); box-shadow: 0 10px 26px rgba(0,0,0,.45); }
+.vbar[hidden] { display: none; }
+.vbar i { width: 1px; height: 1.3em; background: #44444A; } .vbar button { background: none; border: 0; padding: .35em .55em; border-radius: 7px; cursor: pointer; display: grid; place-items: center; position: relative; }
+.vbar button:hover { background: #2E2E34; } .vbar button.on svg path, .vbar button.on svg rect { fill: #FF5A4A; stroke: #FF5A4A; } .vbar button.on svg path[fill='none'] { fill: none; }
+.vbar button.hl { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; } .vbar button.hl::after { content: '⬇'; position: absolute; top: -1.5em; left: 50%; transform: translateX(-50%); color: #E2533F; font-size: 1.3em; animation: nudge 1s infinite; }
+.vbar.wail button[data-k="som"] { animation: glow .4s infinite; }
+.sstat { display: flex; gap: .4em; flex-wrap: wrap; } .sstat span { padding: .3em .7em; border-radius: 999px; background: #2A2D3A; color: var(--muted); font-weight: 600; } .sstat span.on { background: rgba(79,180,119,.2); color: #8FE0AE; }
+.game.wide { inset: 4% 2% 4%; } .game.wide h2 { display: none; }
+.pmn { display: grid; gap: .3em; } .pmn button { display: flex; gap: .6em; align-items: center; text-align: left; background: rgba(30,30,34,.95); border: 1px solid #333338; border-radius: 8px; padding: .45em .7em; color: #EDEDF0; font: 500 .95em var(--body); cursor: pointer; } .pmn button.hl { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; }
+.trd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: .6em; font-size: .85em; } .tinv { position: relative; min-width: 0; overflow: hidden; } .tneg { min-width: 0; } .tinv .ivg, .tneg .nslots { grid-template-columns: repeat(5, minmax(0, 1fr)); } .tinv .kg { flex: none; } .ivg .it { position: relative; } .ivg .it em { position: absolute; top: .1em; left: .3em; font: 700 .55em var(--body); font-style: normal; color: #fff; }
+.ivg .kt b, .kt0 { color: #fff; background: #D8322A; border-radius: 6px; width: 1.3em; height: 1.3em; display: grid; place-items: center; font-size: .9em; } .ivg .rd { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; cursor: grab; }
+.tinv .ctx { left: 4em; top: 3em; display: grid; } .tinv .ctx[hidden] { display: none; } .ctx button.hl { outline: 2px solid #F2C94C; }
+.spl { position: absolute; left: 2.2em; top: 4.6em; width: 70%; background: #232326; border: 1px solid #3A3A40; border-radius: 8px; padding: .55em; display: grid; gap: .4em; z-index: 4; } .spl[hidden] { display: none; }
+.spr { display: flex; gap: .5em; align-items: center; } .spr span { background: #1A1A1D; border: 1px solid #3A3A40; border-radius: 5px; padding: .1em .6em; } .spr input { flex: 1; accent-color: #C8473A; }
+.spb { display: grid; grid-template-columns: repeat(3, 1fr); gap: .3em; } .spb button { background: #2E2E33; border: 0; color: #ddd; border-radius: 5px; padding: .25em; cursor: pointer; }
+.tneg { display: grid; gap: .45em; align-content: start; } .nrow { display: flex; justify-content: space-between; align-items: center; } .nrow div { display: grid; } .nrow small { color: #9A9AA2; }
+.mon, .mon2 { background: #4E6B2E; color: #fff; border: 1px solid #7FA34A; border-radius: 999px; padding: .2em .9em; font: 700 .9em var(--body); } .mon { cursor: pointer; } .mon.hl { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; } .mon.in { width: 6em; outline: 2px solid #F2C94C; text-align: center; }
+.nslots { display: grid; grid-template-columns: repeat(5, 1fr); gap: .3em; background: #1A1A1D; padding: .35em; border-radius: 8px; } .nslots i { aspect-ratio: 1.35; border: 1px solid #333338; border-radius: 7px; display: grid; place-items: center; position: relative; } .nslots i em { position: absolute; top: .1em; left: .3em; font: 700 .55em var(--body); font-style: normal; }
+.nft { display: flex; gap: .4em; align-items: center; } .nft small { flex: 1; color: #9A9AA2; } .gx2 { background: none; border: 1px solid #4A4A50; color: #ddd; border-radius: 6px; padding: .35em .8em; cursor: pointer; } .gsb.sm { padding: .35em .9em; } .gsb.hl { outline: 2px solid #F2C94C; }
+.tinv { background: rgba(24,24,27,.96) !important; border: 1px solid #2C2C31 !important; border-radius: 12px !important; padding: .7em .7em .5em !important; }
+.ivh2 { display: flex; align-items: center; gap: .6em; padding-right: 3.4em; } .ivh2 b { flex: 1; font-weight: 500; } .tabs { display: flex; gap: .5em; } .tabs i { font-style: normal; opacity: .45; filter: grayscale(1); font-size: .9em; } .tabs i.on { opacity: 1; filter: none; border-bottom: 2px solid #D8322A; padding-bottom: .15em; }
+.kgr { position: absolute; right: .3em; top: -.2em; width: 3.4em; height: 3.4em; display: grid; place-items: center; } .kgr svg { position: absolute; inset: 0; } .kgr span { position: relative; font: 700 .55em/1.1 var(--body); text-align: center; color: #eee; }
+.tinv .ivg i { aspect-ratio: 1.3; background: #1C1C1F; border-color: #2E2E33; border-radius: 9px; } .ik { width: 72%; height: 72%; filter: drop-shadow(0 2px 2px rgba(0,0,0,.5)); } .nslots .ik { width: 72%; }
+.lock { display: grid; justify-items: center; gap: .1em; padding: .4em 0 .1em; text-align: center; } .lock b { font-size: .95em; } .lock small { color: #9A9AA2; font-size: .75em; }
+.tneg { background: rgba(24,24,27,.96) !important; border: 1px solid #2C2C31 !important; border-radius: 12px !important; } .tneg > b { font-weight: 500; padding-bottom: .4em; border-bottom: 1px solid #2C2C31; }
+.mon, .mon2 { background: #3D5A1E !important; border-color: #6E9440 !important; color: #E8F3D8 !important; }
+.tinv .ctx { background: #1E1E22; border-color: #34343A; min-width: 8em; } .tinv .ctx button { text-align: left; padding: .45em 1em; outline: 0; } .tinv .ctx button.hl { background: #2A2A30; outline: 2px solid #F2C94C; }
+.tinv .spl { left: 40%; top: 3.6em; width: 56%; }
+.tinv:has(.dragging) { overflow: visible; z-index: 20; } .trd { position: relative; } .tinv .ivg .dragging { z-index: 50; position: relative; box-shadow: 0 14px 30px rgba(0,0,0,.6); outline: 2px solid #F2C94C; background: #26262A; }
+.spl { background: #1E1E22 !important; border-color: #34343A !important; box-shadow: 0 10px 26px rgba(0,0,0,.5); } .sx { color: #888; } .spr span { min-width: 2.2em; text-align: center; }
+.tchat { display: grid; gap: .25em; } .tchat[hidden] { display: none; } .tcl p { margin: 0; font: 700 .85em Tahoma, Verdana, system-ui; color: #fff; text-shadow: 1px 1px 0 #000; } .tcl span, .tchat label span { color: #5BE05B; }
+.topt { display: flex; flex-wrap: wrap; gap: .3em; } .topt button { background: #26262B; border: 1px solid #3A3A42; color: #EDEDF0; border-radius: 999px; padding: .3em .75em; font: 500 .85em var(--body); cursor: pointer; } .topt button:hover { border-color: var(--yellow); } .topt button.on { background: rgba(79,180,119,.2); border-color: var(--ok); } .topt button[disabled]:not(.on) { opacity: .4; }
+.tchat label { display: flex; gap: .4em; align-items: center; background: rgba(0,0,0,.5); border: 1px solid var(--yellow); border-radius: 6px; padding: .3em .5em; font: 700 .85em Tahoma, Verdana, system-ui; } .tchat input { flex: 1; background: none; border: 0; outline: none; color: #fff; font: inherit; }
+.mon2.pop2 { animation: pop .4s, glow 1.2s 2; }
 .game.err { animation: shake .35s; }
 .game.done { box-shadow: 0 0 0 3px var(--ok), 0 24px 60px rgba(0,0,0,.55); }
 .task { position: relative; display: grid; gap: .7em; user-select: none; -webkit-user-select: none; }
@@ -490,19 +524,40 @@ function prop(kind) {
 }
 const hold = (P, side, kind) => { const h = P.arms[side].userData.hand; h.clear(); if (kind) h.add(prop(kind)); };
 
-function ambulance() {
-  const g = new THREE.Group();
-  box(2.6, 1.5, 1.4, '#F4F1EA', 0, 1.15, 0, g); box(.9, 1.1, 1.36, '#F4F1EA', 1.75, .95, 0, g);
+function ambulance(red = true) {
+  const g = new THREE.Group(), BD = red ? '#B01A13' : '#F4F1EA', ST = red ? '#F2C230' : '#D8432F';
+  box(2.6, 1.5, 1.4, BD, 0, 1.15, 0, g); box(.9, 1.1, 1.36, BD, 1.75, .95, 0, g); if (red) box(1.6, .14, 1.2, BD, -.2, 1.96, 0, g);
   box(.5, .45, 1.38, '#7FB2DA', 1.85, 1.2, 0, g);
-  box(2.62, .18, 1.42, '#D8432F', 0, .95, 0, g); box(.92, .18, 1.38, '#D8432F', 1.75, .82, 0, g);
-  box(.16, .55, .02, '#D8432F', 0, 1.45, .71, g); box(.55, .16, .02, '#D8432F', 0, 1.45, .71, g);
+  box(2.62, .18, 1.42, ST, 0, .95, 0, g); box(.92, .18, 1.38, ST, 1.75, .82, 0, g);
+  if (red) { [.15, .42, .9, 1.17].forEach(x => { const b = box(.12, 1.25, 1.43, ST, x, 1.3, 0, g); b.rotation.z = .55; });
+    box(2.62, .07, 1.43, '#7A1410', 0, .7, 0, g); box(.62, .5, 1.42, '#1A1C22', -.05, 1.35, 0, g); box(.5, .4, 1.38, '#1A1C22', 1.86, 1.18, 0, g);
+    const sx = textSprite('193', { size: 128, scale: .5, color: '#F2C230', font: '800 70px "Barlow Condensed", system-ui' }); sx.position.set(.85, .62, .73); g.add(sx);
+    const sl = textSprite('✱', { size: 128, scale: .75, color: '#1E3A8A', font: '800 150px system-ui' }); sl.position.set(-.85, 1.25, .73); g.add(sl);
+    [[-1.2, 1.78], [.9, 1.78], [-1.2, 1.25]].forEach(([x, y], i) => mesh(new THREE.BoxGeometry(.18, .14, .06), glowMat(i % 2 ? '#FFFFFF' : '#FF2A1E'), x, y, .72, g)); }
+  if (!red) { box(.16, .55, .02, '#D8432F', 0, 1.45, .71, g); box(.55, .16, .02, '#D8432F', 0, 1.45, .71, g); }
+  const hl = [-.48, .48].map(z => mesh(new THREE.BoxGeometry(.04, .14, .26), glowMat('#555048'), 2.21, .78, z, g));
+  const beam = new THREE.SpotLight(0xfff2cc, 0, 12, .5, .5); beam.position.set(2.3, .8, 0); beam.target.position.set(8, 0, 0); g.add(beam, beam.target);
   [[-.85, .7], [-.85, -.7], [1.6, .7], [1.6, -.7]].forEach(([x, z]) => { const w = cyl(.32, .32, .2, '#1E1C22', x, .32, z, g, 18); w.rotation.x = Math.PI / 2; });
   const sr = mesh(new THREE.BoxGeometry(.3, .14, .3), glowMat('#ff3b30'), -.25, 1.98, 0, g), sb = mesh(new THREE.BoxGeometry(.3, .14, .3), glowMat('#3b6bff'), .25, 1.98, 0, g);
   const light = new THREE.PointLight(0xff3b30, 0, 6); light.position.set(0, 2.3, 0); g.add(light);
-  g.userData = { sr, sb, light, siren: 0 };
+  // feixes giratórios do giroflex e feixes dos faróis (cones aditivos)
+  const fx = c => new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide });
+  const rot = new THREE.Group(); rot.position.set(0, 1.98, 0); g.add(rot);
+  const cones = [['#ff2a1e', 1], ['#2a5bff', -1]].map(([c, d]) => { const m = new THREE.Mesh(new THREE.ConeGeometry(1.1, 4, 28, 1, true), fx(c)); m.rotation.z = d * Math.PI / 2; m.position.x = d * 2.05; rot.add(m); return m; });
+  const lR = new THREE.PointLight(0xff2a1e, 0, 9), lB = new THREE.PointLight(0x2a5bff, 0, 9); lR.position.set(2.2, 0, 0); lB.position.set(-2.2, 0, 0); rot.add(lR, lB);
+  const heads = hl.map(h => { const m = new THREE.Mesh(new THREE.ConeGeometry(.75, 3, 24, 1, true), fx('#fff1c4')); m.rotation.z = Math.PI / 2; m.position.set(3.7, .55, h.position.z); g.add(m); return m; });
+  const pool = new THREE.Mesh(new THREE.CircleGeometry(1.4, 32), fx('#fff1c4')); pool.rotation.x = -Math.PI / 2; pool.scale.set(1.5, 1, 1); pool.position.set(3.9, .03, 0); g.add(pool);
+  g.userData = { sr, sb, light, siren: 0, hl, beam, rot, cones, lR, lB, heads, pool, far: 0, farT: 0 };
   return g;
 }
-function sirenTick(v, t) { const on = v.userData.siren, ph = Math.sin(t * 12) > 0; v.userData.sr.material.color.set(on && ph ? '#ff3b30' : '#6a2a2a'); v.userData.sb.material.color.set(on && !ph ? '#3b6bff' : '#2a2f5a'); v.userData.light.intensity = on ? 1.6 : 0; v.userData.light.color.set(ph ? 0xff3b30 : 0x3b6bff); }
+function farTick(v, t, on) { const u = v.userData; if (on && !u.farT) u.farT = t; if (!on) u.farT = 0; const a = on ? t - u.farT : 0;
+  const k = !on ? 0 : a < .5 ? (Math.sin(a * 60) > 0 ? 1 : .15) : 1, flick = 1 - .06 * Math.sin(t * 9);
+  u.hl.forEach(h => h.material.color.set(k > .5 ? '#FFF6D8' : '#555048')); u.beam.intensity = 2.4 * k * flick;
+  u.heads.forEach(m => m.material.opacity = .3 * k * flick); u.pool.material.opacity = .45 * k * flick; }
+function sirenTick(v, t) { const on = v.userData.siren, ph = Math.sin(t * 12) > 0, u = v.userData;
+  u.rot.rotation.y = t * 6.5; const pulse = .55 + .45 * Math.abs(Math.sin(t * 12));
+  u.cones.forEach(c => c.material.opacity = on ? .2 * pulse : 0); u.lR.intensity = on ? 3 * pulse : 0; u.lB.intensity = on ? 3 * (1.45 - pulse) : 0;
+  [u.sr, u.sb].forEach((m, i) => m.scale.setScalar(on ? 1 + .25 * ((i ? !ph : ph) ? 1 : 0) : 1)); v.userData.sr.material.color.set(on && ph ? '#ff3b30' : '#6a2a2a'); v.userData.sb.material.color.set(on && !ph ? '#3b6bff' : '#2a2f5a'); v.userData.light.intensity = on ? 1.6 : 0; v.userData.light.color.set(ph ? 0xff3b30 : 0x3b6bff); }
 function wheel(g, x, z, r = .32, w = .22) { const t = cyl(r, r, w, '#1E1C22', x, r, z, g, 24); t.rotation.x = Math.PI / 2; const h = cyl(r * .55, r * .55, w + .02, '#B9BCC4', x, r, z, g, 20); h.rotation.x = Math.PI / 2; }
 function lightbar(g, x, y, z, w = .8) { box(w, .08, .3, '#2A2830', x, y, z, g); const a = mesh(new THREE.BoxGeometry(w * .45, .1, .26), glowMat('#ff3b30'), x - w * .25, y + .08, z, g), b = mesh(new THREE.BoxGeometry(w * .45, .1, .26), glowMat('#3b6bff'), x + w * .25, y + .08, z, g); return [a, b]; }
 function moto() { // ROCAM CB 500X
@@ -527,7 +582,7 @@ function trafficLight() { const g = new THREE.Group(); cyl(.06, .06, 3, '#4A4650
 
 // ---------- cenários ----------
 let world = null;
-function newWorld() { if (world) scene.remove(world); world = new THREE.Group(); scene.add(world); return world; }
+function newWorld() { hemi.intensity = .75; sun.intensity = .85; if (world) scene.remove(world); world = new THREE.Group(); scene.add(world); return world; }
 function room(wall, floor, w = 16) {
   const g = newWorld(); scene.background = new THREE.Color(wall); scene.fog = null;
   const f = box(w, .1, 10, floor, 0, -.05, 0, g); const back = box(w, 6, .1, wall, 0, 3, -3, g); box(w, .25, .12, '#E9E3D6', 0, .12, -2.94, g);
@@ -560,7 +615,7 @@ const camTo = (x, y, z, lx = 0, ly = 1.1, lz = 0) => { camera.position.set(x, y,
 // ---------- cenas ----------
 const S = [];
 const add = (act, title, dur, narr, setup, card = null) => S.push({ act, title, dur, narr, setup, card });
-const quiz = (act, title, game) => S.push({ act, title, dur: 2, narr: game.q, setup: game.type === 'hold' ? cprScene : game.type === 'hostage' ? hostageScene : game.type === 'aggr' ? aggrScene : game.type === 'resc' ? rescScene : game.type === 'gponto' ? gpScene : game.type === 'roupa' ? roupaScene : game.type === 'loja' || game.type === 'radio' ? lojaScene : game.type === 'veic' ? veicScene : game.type === 'porta' ? doorScene : cardScene(['', '#1F2B4E', '#4A3A1A', '#26402A'][act]), game });
+const quiz = (act, title, game) => S.push({ act, title, dur: 2, narr: game.q, setup: game.type === 'hold' ? cprScene : game.type === 'hostage' ? hostageScene : game.type === 'aggr' ? aggrScene : game.type === 'resc' ? rescScene : game.type === 'gponto' ? gpScene : game.type === 'roupa' ? roupaScene : game.type === 'loja' || game.type === 'radio' ? lojaScene : game.type === 'veic' ? veicScene : game.type === 'porta' ? doorScene : game.type === 'sirene' ? sirScene : game.type === 'venda' ? vendaScene : cardScene(['', '#1F2B4E', '#4A3A1A', '#26402A'][act]), game });
 
 // Cena de cartão: fundo 3D desfocado + recruta pensativo
 // reanimação: bombeiro ajoelhado faz compressões enquanto E está pressionado
@@ -779,6 +834,28 @@ function doorScene() {
     if (k >= 3) camTo(IX + 3.4, 2.5, 3.4, IX + 1.6, 1.3, -2.4); else camTo(3.4, 2.5, 4.4, 1.7, 1.3, -2.4);
   };
 }
+// giroflex, faróis e sirene: SIR = estado de cada um
+const SIR = { gir: 0, far: 0, sir: 0 };
+function sirScene() {
+  const g = room('#3A3128', '#26301F', 16); hemi.intensity = .28; sun.intensity = .3; Object.assign(SIR, { gir: 0, far: 0, sir: 0 });
+  [-2.6, 2.6].forEach(z => box(16, .02, .14, '#D9E27A', 0, .01, z, g));
+  const v = ambulance(true); v.position.set(-3.2, 0, -1.4); v.rotation.y = -.75; g.add(v);
+  return t => {
+    v.userData.siren = SIR.gir; sirenTick(v, t);
+    farTick(v, t, SIR.far);
+    camTo(-4.2, 4.2, 9.6, .4, .6, 0);
+  };
+}
+// venda: paciente; PAC.scr = posição na tela
+const PAC = { scr: [0, 0], paid: 0 };
+function vendaScene() {
+  const g = street(); PAC.paid = 0;
+  const c = person('civ', { shirt: '#3A3A44', pants: '#24242A', skin: SKIN[1], hair: '#1E1A18' }); c.g.position.set(-.6, 0, .2); c.g.rotation.y = .6; g.add(c.g);
+  const r = person('rec'); r.g.position.set(1.3, 0, .6); r.g.rotation.y = -1.9; g.add(r.g); const v = new THREE.Vector3();
+  return t => { c.set(PAC.paid ? 'happy' : 'neutral'); emote(c, PAC.paid ? '💵' : null); pose(c, { bob: idle(c, t), aR: PAC.paid ? 1.2 : .08, fR: PAC.paid ? 1 : 0 }); hold(c, 1, PAC.paid ? 'kit' : null);
+    r.set(PAC.paid ? 'happy' : 'neutral'); pose(r, { bob: idle(r, t, 1) }); camTo(.8, 1.9, 6, .9, 1.2, 0);
+    c.g.getWorldPosition(v); v.y += 1.15; v.project(camera); PAC.scr = [(v.x + 1) / 2, (1 - v.y) / 2]; };
+}
 function cardScene(col) { return () => { const g = room(col, '#2A2830'); const r = person('rec'); r.g.position.set(4.6, 0, 1); r.g.rotation.y = -.5; g.add(r.g); r.set('thinking'); emote(r, '?'); return t => { pose(r, { bob: idle(r, t), aR: .3 + .1 * Math.sin(t * 2) }); camTo(Math.sin(t * .2) * .3, 1.6, 7.5, 0, 1.4, 0); }; }; }
 
 // ===== ATO 1 =====
@@ -892,6 +969,7 @@ add(1, 'Hospital lotado', 8, 'No hospital ficam no máximo dois bombeiros na cal
 add(1, 'Cartão: escala', 7, 'A escala garante cobertura: no mínimo um bombeiro no hospital e três na patrulha. Se tiver menos de três na cidade, a prioridade é a patrulha.', cardScene('#26402A'), { title: 'Escala', color: '#4E8A52', lines: ['Hospital (HP): no máximo 2 bombeiros na call, oficiais incluídos', 'Excedentes: até 10 minutos, depois vão para a patrulha', '<b>Mínimo:</b> 1 no HP e 3 em patrulha', 'Menos de 3 na cidade? Prioridade é a patrulha', '<b>Rua:</b> foco total no patrulhamento e atendimento ágil', 'Proibido AFK (ausente) enquanto fardado'], why: 'Quem está na rua chega primeiro ao ferido; o hospital lotado não salva ninguém.' });
 quiz(1, "Tarefa: hospital cheio", {"type": "staff", "kind": "Tarefa · Escala", "q": "Distribua os 4 bombeiros entre o HP e a patrulha.", "why": "No máximo 2 no HP e no mínimo 1; a patrulha precisa de pelo menos 3."});
 quiz(1, 'Tarefa: pegar viatura', {"type": "veic", "kind": "Tarefa · Pegar viatura", "q": "Hora de sair para a rua. Pegue uma viatura na garagem.", "why": "Ambulância é livre para todos. ROCAM: Soldado+. Viatura e Mustang: 2º Ten+ com especialização."});
+quiz(1, 'Tarefa: giroflex e sirene', {"type": "sirene", "kind": "Tarefa · Giroflex, faróis e sirene", "q": "Na ambulância, ligue o giroflex, os faróis e a sirene, nessa ordem.", "why": "Para furar sinal ou passar no trânsito, giroflex e sirene precisam ficar ligados sem parar."});
 add(1, 'Ambulância: primeiro chamado', 6.5, 'A ambulância é liberada para todas as patentes, um bombeiro por viatura. Sirene ligada, rumo ao primeiro chamado.', () => {
   const g = street(); const v = ambulance(); g.add(v); v.position.set(1, 0, 0);
   const r = person('rec'); g.add(r.g);
@@ -989,8 +1067,10 @@ add(2, 'Kit só no final', 6.5, 'O kit médico cura o paciente, mas só é vendi
     camTo(-.2, 2, 6.2, -.2, 1.3, 0); mark(t > 3.6 ? 'ok' : null);
   };
 });
-add(2, 'Cartão: kits médicos', 8, 'Kit médico: compra mil no hospital, revende por cinco mil. Seringa de adrenalina: compra cinco mil, revende por dez mil, e só com três bombeiros ou menos online.', cardScene('#5A2622'), { title: 'Kits médicos', color: '#B8362C', lines: ['<b>Kit Médico:</b> compra $1.000 no HP · revenda $5.000 (lucro $4.000) · o paciente se cura', '<b>Seringa de Adrenalina:</b> compra $5.000 · revenda $10.000 (lucro $5.000) · qualquer pessoa revive outra', 'Adrenalina só com 3 bombeiros ou menos online', 'Vender kit só no final, depois de resgatar todos da ação', 'Proibido salvar antes da ação acabar ou sem autorização da polícia'], why: 'A adrenalina substitui o bombeiro; por isso só vale quando há poucos em serviço.' });
+add(2, 'Cartão: kits médicos', 8, 'Kit médico: compra mil no hospital e revende por cinco mil; quem compra usa em si mesmo para se curar. Seringa de adrenalina: compra cinco mil e revende por dez mil. Com ela, qualquer pessoa pode reanimar outro paciente caído, aplicando a adrenalina nele, sem precisar de bombeiro. Mas atenção: a seringa só funciona quando há três bombeiros ou menos na cidade. Com mais bombeiros em serviço, ela não tem efeito, e o resgate é com a gente.', cardScene('#5A2622'), { title: 'Kits médicos', color: '#B8362C', lines: ['<b>Kit Médico:</b> compra $1.000 no HP · revenda $5.000 (lucro $4.000) · o paciente se cura', '<b>Seringa de Adrenalina:</b> compra $5.000 · revenda $10.000 (lucro $5.000)', '<b>Como funciona:</b> quem compra aplica a adrenalina em <b>outro paciente caído</b> e o reanima, sem bombeiro', '<b>Só funciona com 3 bombeiros ou menos na cidade</b>; com mais em serviço, não faz efeito', 'Vender kit só no final, depois de resgatar todos da ação', 'Proibido salvar antes da ação acabar ou sem autorização da polícia'], why: 'A seringa existe para quando falta bombeiro: o próprio cidadão reanima o colega caído. Com mais de 3 bombeiros na cidade, ela não funciona.' });
 quiz(2, 'Tarefa: comprar kit médico', {"type": "loja", "kind": "Tarefa · Comprar kits", "q": "Compre kits médicos com a doutora do hospital.", "why": "Cada bombeiro pode levar no máximo 4 kits médicos no inventário."});
+quiz(2, 'Tarefa: vender kit médico', {"type": "venda", "kind": "Tarefa · Vender kit médico", "q": "Ação encerrada e paciente resgatado. Venda 1 kit médico para ele.", "why": "Informe o preço (1 kit = 5.000) e o paciente coloca o valor. Venda só no final, depois de resgatar todos."});
+quiz(2, 'Tarefa: vender seringa de adrenalina', {"type": "venda", "syr": true, "kind": "Tarefa · Vender seringa", "q": "Só três bombeiros online. Venda 1 seringa de adrenalina para o paciente, por dez mil.", "why": "Seringa de adrenalina: compra 5.000, revenda 10.000 a unidade. Só com 3 bombeiros ou menos online."});
 add(2, 'Agressão: não revide', 9, 'Foi agredido, ameaçado ou desacatado? Regra de ouro: não revide. Acalme a situação, grave print ou vídeo e acione a polícia. Em morte ilegal, o RDM, grave o clipe e denuncie no fórum, sem discutir no jogo.', () => {
   const g = street(); const a = person('civ2'), r = person('rec'), p = person('pol'); a.g.position.set(-1.4, 0, 0); a.g.rotation.y = .9; r.g.position.set(.6, 0, 0); r.g.rotation.y = -.9; p.g.rotation.y = -Math.PI / 2; g.add(a.g, r.g, p.g);
   return t => {
@@ -1168,7 +1248,8 @@ const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls)
 const later = (f, ms) => taskTimers.push(setTimeout(f, ms));
 const every = (f, ms) => taskTimers.push(setInterval(f, ms));
 function clearTask() { if (stepObs) { stepObs.disconnect(); stepObs = null; } radioKeys = null; document.querySelectorAll('.hud .hot').forEach(h => h.remove()); $('stage').classList.remove('cur'); taskTimers.forEach(t => { clearTimeout(t); clearInterval(t); }); taskTimers = []; if (holdSt) holdSt.cancel(); holdSt = null; }
-function hideGame() { window.__talk = null; document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
+function stopSiren() { const ac = window.__sirAC; window.__sirAC = null; if (ac) try { ac.close(); } catch (e) {} }
+function hideGame() { stopSiren(); document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); window.__talk = null; document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
 // arrastar com ponteiro (mouse e toque); onDrop recebe o elemento-alvo sob o dedo
 function drag(item, onDrop, onMove) {
   item.style.touchAction = 'none';
@@ -1190,7 +1271,7 @@ const BOTEMB = link => `<div class="dsc emb2"><div class="eb2"><div class="et">�
         <div class="el">🧭 Painel Dashboard de desempenho:</div>${link ? '<a href="#" class="vp" id="vp">Ver Painel</a><span class="vph" aria-hidden="true">👈 clique aqui</span>' : '<span class="vp0">Ver Painel</span>'}
         <div class="ban"><span>🚒</span><b>BOMBEIROS BGR</b><span>🛡️</span></div></div><div class="logo">🚒<small>BGR</small></div></div>`;
 function renderGame(G, i) {
-  clearTask(); window.__talk = null; document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio', 'porta'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
+  clearTask(); gameEl.classList.remove('wide'); stopSiren(); window.__talk = null; document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio', 'porta', 'sirene', 'venda'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
   $('gk').textContent = G.kind; $('gs').textContent = score + ' pts'; $('gq').textContent = G.q;
   const O = $('go'), F = $('gf'), N = $('gn'); O.innerHTML = ''; O.className = 'task t-' + G.type; F.innerHTML = G.hint || ''; F.className = 'fb'; N.hidden = true; N.textContent = 'Continuar ▶';
   let tries = 0, over = false;
@@ -1469,6 +1550,73 @@ function renderGame(G, i) {
         $('qm').onclick = () => { if (qty > 1) { qty--; upd(); } };
         $('qc').onclick = () => { if (over) return; if (qty < 4) return miss(`Você está comprando ${qty}. Leve o máximo permitido: 4 kits.`); DOC.happy = 1; $('qc').textContent = '4 kits no inventário ✓'; $('qc').disabled = true; finish(); }; }); };
   }
+  const KIT = '<svg viewBox="0 0 48 44" class="ik"><defs><linearGradient id="kg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF5148"/><stop offset="1" stop-color="#B3140E"/></linearGradient></defs><rect x="3" y="6" width="42" height="35" rx="10" fill="url(#kg1)"/><path d="M8 9 Q24 3 40 9" stroke="#7A0A06" stroke-width="2" fill="none"/><rect x="18" y="13" width="12" height="23" rx="2" fill="#fff"/><rect x="12.5" y="18.5" width="23" height="12" rx="2" fill="#fff"/><path d="M7 30 Q6 38 14 39" stroke="#FF8A80" stroke-width="2" fill="none" opacity=".6"/></svg>',
+    SYR = '<svg viewBox="0 0 48 48" class="ik"><g transform="rotate(45 24 24)"><rect x="21" y="2" width="6" height="9" rx="1" fill="#9AA0A8"/><circle cx="18" cy="7" r="3.5" fill="none" stroke="#9AA0A8" stroke-width="2"/><circle cx="30" cy="7" r="3.5" fill="none" stroke="#9AA0A8" stroke-width="2"/><rect x="18.5" y="11" width="11" height="24" rx="2" fill="#F5D45A" stroke="#C9A12E" stroke-width="1.2"/><rect x="18.5" y="11" width="11" height="4" fill="#C9C9CF"/><path d="M20 36h8l-2 5h-4z" fill="#F07A2E"/><rect x="23.3" y="41" width="1.4" height="6" fill="#B9BDC5"/></g></svg>',
+    INVH = (kg) => `<div class="ivh2"><b>Meu Inventário</b><span class="tabs"><i>👤</i><i>🍔</i><i>🔫</i><i class="on">✨</i></span></div><div class="kgr"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#141416" stroke="#2A2A2E" stroke-width="3"/><circle cx="20" cy="20" r="17" fill="none" stroke="#D8322A" stroke-width="3" stroke-dasharray="${kg * 107} 107" transform="rotate(-90 20 20)" stroke-linecap="round"/></svg><span>18.5/50<br>KG</span></div>`;
+  if (G.type === 'venda') {
+    const st = h => { $('vs').innerHTML = h; }; O.innerHTML = '<div class="gpi" id="vs"></div><div id="vw"></div>'; const W = $('vw');
+    const hot = el('button', 'hot', '<span>🖱️ clique no paciente</span>'); hot.hidden = true; document.querySelector('.hud').append(hot); every(() => { hot.style.left = PAC.scr[0] * 100 + '%'; hot.style.top = PAC.scr[1] * 100 + '%'; }, 50);
+    const Y = !!G.syr, NM = Y ? 'seringa' : 'kit', NMF = Y ? 'Seringa de Adrenalina' : 'Kit Médico', ICO = Y ? SYR : KIT, TOT = Y ? 10 : 4, PR = Y ? 10000 : 5000, PRS = Y ? '10.000' : '5.000', PRK = Y ? '10 mil' : '5 mil';
+    let stage = 0, kits = [TOT], sold = null;
+    const showCur = () => { if (stage) return; stage = 1; hot.hidden = false; $('stage').classList.add('cur'); st('<p>2. Cursor ativo. <b>Clique no paciente</b>.</p>'); };
+    st('<p>1. Aperte <kbd>M</kbd> para mostrar o cursor.</p><button class="act" id="v1">M · Mostrar cursor</button>'); $('v1').onclick = showCur; holdSt = { go: showCur, stop: () => {}, cancel: () => {} };
+    hot.onclick = () => { if (stage !== 1) return; stage = 2; hot.hidden = true; $('stage').classList.remove('cur'); holdSt = null; st('<p>3. Clique em <b>Proposta de troca</b>.</p>');
+      W.innerHTML = `<div class="pmn">${[['🔇', 'Mutar'], ['💸', 'Enviar dinheiro'], ['🔍', 'Revistar'], ['🔁', 'Proposta de troca'], ['🧍', 'Carregar paciente']].map(([i, t]) => `<button class="${t[0] === 'P' ? 'hl' : ''}" data-t="${t}"><span>${i}</span>${t}</button>`).join('')}</div>`;
+      W.querySelectorAll('button').forEach(b => b.onclick = () => { if (b.dataset.t !== 'Proposta de troca') return miss(b.dataset.t + ' não é para vender. Use Proposta de troca.'); openTrade(); }); };
+    const openTrade = () => { stage = 3; gameEl.classList.remove('side'); gameEl.classList.add('wide');
+      W.innerHTML = `<div class="trd"><div class="gsm tinv">${INVH(.37)}<div class="ivg" id="tg"></div><div class="lock">🔒<b>Espaços bloqueados :(</b><small>Libere +10 slots no seu inventário e expanda suas possibilidades!</small></div><div class="ctx" id="tctx" hidden><button>Usar</button><button id="tsep" class="hl">Separar</button></div><div class="spl" id="tspl" hidden><div class="nrow"><b>Separar item</b><span class="sx">✕</span></div><div class="spr"><span id="tsv">2</span><input type="range" id="tsr" min="1" max="${TOT - 1}" value="2"></div><div class="spb">${Y ? '<button data-v="1">1</button><button data-v="5">1/2</button><button data-v="8">3/4</button>' : '<button data-v="1">1/4</button><button data-v="2">1/2</button><button data-v="3">3/4</button>'}</div><button class="gsb" id="tsc">Confirmar</button></div></div>
+        <div class="gsm tneg"><b>Negociação de itens</b><div class="nrow"><div><b>Sua proposta</b><small>Arraste itens do inventário</small></div><button class="mon" id="tm">$</button></div><div class="nslots" id="tp">${'<i data-drop="p"></i>'.repeat(5)}</div>
+          <div class="nrow"><div><b>Red Cruz (9124)</b><small>Itens do jogador</small></div><span class="mon2" id="tval">$0</span></div><div class="nslots">${'<i></i>'.repeat(5)}</div><div class="tchat" id="tchat" hidden><div class="tcl" id="tcl"></div><div class="topt" id="tci">${(Y ? ['A seringa de adrenalina sai por $10.000.', 'São $5.000 a seringa.', 'Quanto você quer pagar?'] : ['O kit médico sai por $5.000.', 'São $20.000 o kit.', 'Quanto você quer pagar?']).map(x => `<button>💬 ${x}</button>`).join('')}</div></div><div class="nft"><small>👥 1 de 2</small><button class="gx2">Cancelar</button><button class="gsb sm" id="tok">Confirmar</button></div></div></div>`;
+      draw(); st(`<p>4. Você tem ${TOT} ${Y ? 'seringas' : 'kits'} juntos. Para vender 1, <b>clique com o botão direito</b> no monte e escolha <b>Separar</b>.</p>`); };
+    const draw = () => { const g = $('tg'); g.innerHTML = `<i class="it">${Y ? KIT : SYR}<em>${Y ? 4 : 10}</em></i>` + kits.map((n, j) => `<i class="it kt ${stage === 3 && j === 0 ? 'rd' : ''} ${stage === 5 && j === 1 ? 'rd' : ''}" data-j="${j}">${ICO}<em>${n}</em></i>`).join('') + '<i></i>'.repeat(14 - kits.length);
+      g.querySelectorAll('.kt').forEach(k => { const j = +k.dataset.j;
+        k.oncontextmenu = e => { e.preventDefault(); if (stage !== 3) return; $('tctx').hidden = false; $('tctx').style.left = k.offsetLeft + 30 + 'px'; $('tctx').style.top = k.offsetTop + 30 + 'px'; };
+        if (stage === 5) drag(k, z => { if (!z || z.dataset.drop !== 'p') return false; if (kits[j] !== 1) { miss('Esse monte tem ' + kits[j] + '. Arraste o monte separado (1).'); return false; } sold = 1; kits.splice(j, 1); z.innerHTML = ICO + '<em>1</em>'; z.classList.add('it', 'kt'); stage = 6; draw();
+          st(`<p>7. Informe o preço ao paciente: <b>clique na mensagem certa</b> para enviar no chat (1 ${NM} = ${PRS}). Quem coloca o valor no $ é ele.</p>`);
+          $('tchat').hidden = false; return true; }); }); };
+    W.addEventListener('click', e => {
+      if (e.target.closest('#tctx button') && !e.target.closest('#tsep')) return miss('Usar consome o item. Escolha Separar.');
+      if (e.target.closest('#tsep')) { $('tctx').hidden = true; $('tspl').hidden = false; st('<p>5. Arraste a barra até a quantidade <b>1</b> e confirme.</p>'); }
+      const fb = e.target.closest('.spb button'); if (fb) { $('tsr').value = fb.dataset.v; $('tsv').textContent = fb.dataset.v; }
+      if (e.target.closest('#tsc')) { const q = +$('tsr').value; if (q !== 1) return miss('Para vender 1, separe a quantidade 1.'); $('tspl').hidden = true; kits = [TOT - 1, 1]; stage = 5; draw(); st(`<p>✓ Separado. 6. <b>Arraste o monte de 1</b> para “Sua proposta”.</p>`); $('tok').classList.remove('hl'); }
+      if (e.target.closest('#tm')) return miss('O $ não é seu: o paciente é quem coloca o valor. Informe o preço por voz ou no chat.');
+      if (e.target.closest('#tok')) { if (stage < 6) return miss('Separe e arraste 1 ' + NM + ' antes de confirmar.'); if (stage < 7) return miss('Antes, informe o preço ao paciente e espere ele colocar o valor.'); PAC.paid = 1; $('tok').textContent = 'Venda concluída ✓'; $('tok').disabled = true; gameEl.classList.remove('wide'); gameEl.classList.add('side'); W.innerHTML = `<div class="embed ok"><div class="eb"><div class="et">✅ Troca concluída</div><div class="el">-1 ${NMF} · +$${PRS}</div></div></div>`; finish(); }
+      if (e.target.closest('.gx2')) miss('Não cancele: conclua a venda.');
+    });
+    W.addEventListener('click', e => { const ob = e.target.closest('#tci button'); if (!ob || stage !== 6) return; const raw = ob.textContent.replace('💬 ', '');
+      const n = +(raw.match(/\d[\d.]*/) || ['0'])[0].replace(/\./g, '');
+      $('tcl').insertAdjacentHTML('beforeend', `<p><span>[Local]</span> BOMB|ALN.${window.__nick || 'Fulano'}: ${raw.replace(/</g, '&lt;')}</p>`);
+      if (n !== PR) return miss(Y ? (n === 5000 ? '$5.000 é o preço de compra. A revenda da seringa é 10.000.' : 'Não pergunte: informe o preço padrão, 1 seringa = 10.000.') : n === 20000 ? '$20.000 é o valor de 4 kits. Para 1 kit, o preço padrão é 5.000.' : 'Não pergunte: informe o preço padrão, 1 kit = 5.000.');
+      stage = 7; $('tci').querySelectorAll('button').forEach(x => x.disabled = true); ob.classList.add('on'); later(() => { $('tcl').insertAdjacentHTML('beforeend', '<p><span>[Local]</span> Red Cruz (9124): Fechado, coloquei os ' + PRK + '.</p>'); const m = $('tval'); m.textContent = '$' + PRS; m.classList.add('pop2'); $('tok').classList.add('hl');
+        st('<p>8. O paciente colocou <b>$' + PRS + '</b> no lado dele. Clique em <b>Confirmar</b>.</p>'); }, 1000); });
+    W.addEventListener('input', e => { if (e.target.id === 'tsr') $('tsv').textContent = e.target.value; });
+  }
+  if (G.type === 'sirene') {
+    const C = '#E4E4E8', SW = 'stroke="' + C + '" stroke-width="2.6" stroke-linecap="round" fill="none"';
+    const beacon = '<path d="M14 21v-6.5a6 6 0 0 1 12 0V21z" fill="' + C + '"/><rect x="10.5" y="21" width="19" height="3.2" rx="1.2" fill="' + C + '"/>';
+    const I = {
+      gir1: `<svg viewBox="0 0 40 28" width="2.2em">${beacon}<path d="M3 13.5h6M31 13.5h6M4.5 6.5l5 3.2M35.5 6.5l-5 3.2M4.5 20.5l5-2.4M35.5 20.5l-5-2.4" ${SW}/></svg>`,
+      gir2: `<svg viewBox="0 0 40 28" width="2.2em">${beacon}<path d="M2.5 12h7M30.5 12h7M2.5 17.5h7M30.5 17.5h7" ${SW}/></svg>`,
+      far: `<svg viewBox="0 0 40 28" width="2.2em"><path d="M22 5.5c8.5 0 13 3.8 13 8.5s-4.5 8.5-13 8.5z" fill="none" stroke="${C}" stroke-width="2.6" stroke-linejoin="round"/><path d="M4 8.5l12 1.8M4 13l12 1.8M4 17.5l12 1.8M4 22l12 1.8" ${SW}/></svg>`,
+      som: `<svg viewBox="0 0 40 28" width="2.2em"><path d="M5 10.5h6l7-6v19l-7-6H5z" fill="${C}" stroke="${C}" stroke-width="1" stroke-linejoin="round"/><path d="M23 10a5.5 5.5 0 0 1 0 8M27 6.5a10.5 10.5 0 0 1 0 15" ${SW}/></svg>`,
+      meg: `<svg viewBox="0 0 40 28" width="2.2em"><path d="M7 11.5h4.5L29 4.5v19l-17.5-7H7a2.5 2.5 0 0 1 0-5z" fill="${C}"/><path d="M12 17l2.2 6.5h4.2L16.5 18" fill="${C}"/><path d="M32 10.5v7" ${SW}/></svg>` };
+    const bar = el('div', 'vbar', ['gir1', 'gir2', 'far', 'som', 'meg'].map(k => `<button data-k="${k}" aria-label="${k}">${I[k]}</button>`).join('<i></i>')); document.querySelector('.hud').append(bar); bar.hidden = true;
+    const order = ['gir2', 'far', 'som'], name = { gir2: 'Giroflex', far: 'Faróis', som: 'Sirene' }; let k = 0;
+    const st = () => { bar.querySelectorAll('button').forEach(b => b.classList.toggle('hl', b.dataset.k === order[k])); $('go').innerHTML = `<div class="gpi"><p>${k + 2}. Na barra da viatura, clique em <b>${name[order[k]]}</b> (botão destacado).</p></div><div class="sstat">${order.map((x, j) => `<span class="${j < k ? 'on' : ''}">${j < k ? '✓' : '○'} ${name[x]}</span>`).join('')}</div>`; };
+    const wail = () => { try { stopSiren(); const C = window.AudioContext || window.webkitAudioContext; const ac = new C(), out = ac.createGain(), lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2600; out.gain.value = 0; lp.connect(out); out.connect(ac.destination);
+      const t0 = ac.currentTime + .05, T = 6, cyc = .9; out.gain.linearRampToValueAtTime(.09, t0 + .15); out.gain.setValueAtTime(.09, t0 + T - .4); out.gain.linearRampToValueAtTime(0, t0 + T);
+      [['sawtooth', 1, .55], ['square', 1.005, .25]].forEach(([ty, mul, vol]) => { const o = ac.createOscillator(), gn = ac.createGain(); o.type = ty; gn.gain.value = vol; o.connect(gn); gn.connect(lp);
+        for (let t = 0; t < T; t += cyc) { o.frequency.setValueAtTime(620 * mul, t0 + t); o.frequency.linearRampToValueAtTime(1350 * mul, t0 + t + cyc * .5); o.frequency.linearRampToValueAtTime(620 * mul, t0 + t + cyc); }
+        o.start(t0); o.stop(t0 + T + .05); });
+      window.__sirAC = ac; setTimeout(() => { if (window.__sirAC === ac) stopSiren(); }, (T + .3) * 1000); } catch (e) {} };
+    bar.querySelectorAll('button').forEach(b => b.onclick = () => { if (over) return; const want = order[k];
+      if (b.dataset.k !== want) return miss(b.dataset.k === 'gir1' ? 'Esse é o modo alternativo do giroflex. Use o botão destacado.' : b.dataset.k === 'meg' ? 'O megafone serve para falar com a população. Agora é ' + name[want] + '.' : `Ainda não: primeiro ${name[want]}.`);
+      b.classList.add('on'); if (want === 'gir2') SIR.gir = 1; if (want === 'far') SIR.far = 1; if (want === 'som') { SIR.sir = 1; wail(); bar.classList.add('wail'); }
+      k++; if (k < order.length) st(); else { bar.querySelectorAll('button').forEach(x => x.classList.remove('hl')); $('go').innerHTML = `<div class="sstat">${order.map(x => `<span class="on">✓ ${name[x]}</span>`).join('')}</div>`; finish(); } });
+    const openBar = () => { if (!bar.hidden || over) return; bar.hidden = false; holdSt = null; st(); };
+    $('go').innerHTML = '<div class="gpi"><p>1. Dentro da viatura, aperte <kbd>H</kbd> para abrir o menu da viatura.</p><button class="act" id="hk">H · Abrir menu</button></div>'; $('hk').onclick = openBar;
+    holdSt = { go: openBar, stop: () => {}, cancel: () => {} };
+  }
   if (G.type === 'porta') {
     const toast = msg => { document.querySelectorAll('.hud .toast').forEach(x => x.remove()); const tt = el('div', 'toast', `<i>✓</i><div><b>Sucesso!</b><span>${msg}</span></div>`); document.querySelector('.hud').append(tt); later(() => tt.remove(), 3800); };
     const st = h => { $('gpi').innerHTML = h; };
@@ -1544,7 +1692,7 @@ function watchSteps(G) {
 $('gn').onclick = () => { if (S[idx].game && S[idx].game.type === 'result') { score = 0; answered = {}; $('score').textContent = ''; load(0); } else load(idx + 1); if (!playing) setPlay(true); };
 document.addEventListener('keydown', e => { if (!gameEl.hidden && radioKeys && !e.repeat) { const k = e.key.toLowerCase(); if (k === 'capslock' && radioKeys.caps) { radioKeys.caps(); return; } if (radioKeys[k]) { e.preventDefault(); radioKeys[k](); return; } } });
 document.addEventListener('keydown', e => { if (e.key === 'CapsLock' && !radioKeys && window.__talk && !gameEl.hidden) window.__talk(); });
-document.addEventListener('keydown', e => { if (gameEl.hidden || e.repeat || radioKeys) return; const ty = S[idx].game && S[idx].game.type, key = e.key.toLowerCase(); if (key === (ty === 'loja' ? 'm' : ty === 'copom' ? 'o' : 'e') && holdSt) { e.preventDefault(); holdSt.go(); } });
+document.addEventListener('keydown', e => { if (gameEl.hidden || e.repeat || radioKeys) return; const ty = S[idx].game && S[idx].game.type, key = e.key.toLowerCase(); if (key === (ty === 'loja' || ty === 'venda' ? 'm' : ty === 'copom' ? 'o' : ty === 'sirene' ? 'h' : 'e') && holdSt) { e.preventDefault(); holdSt.go(); } });
 document.addEventListener('keyup', e => { if (e.key.toLowerCase() === 'e' && holdSt) holdSt.stop(); });
 // ---------- player ----------
 const ACTS = { 1: 'Entrar em serviço', 2: 'O chamado', 3: 'Fim do turno' };
