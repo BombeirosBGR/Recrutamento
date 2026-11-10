@@ -115,6 +115,11 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .result .big { font-family: var(--display); font-weight: 800; font-size: 3.4em; line-height: 1; color: var(--yellow); }
 .result .rank { font-family: var(--display); font-weight: 800; font-size: 1.6em; letter-spacing: .06em; text-transform: uppercase; }
 .score { position: absolute; top: 3%; left: 50%; transform: translateX(-50%); font: 600 clamp(10px, 1.4vw, 15px) var(--body); color: var(--yellow); background: rgba(18,19,24,.72); padding: .3em .8em; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.sendf { display: grid; grid-template-columns: 1fr 1fr; gap: .5em; margin-top: .9em; }
+.sendf input { font: 500 1em var(--body); color: var(--fg); background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 9px; padding: .6em .75em; min-width: 0; }
+.sendf button { grid-column: 1 / -1; font: 700 1em var(--body); color: #1a1a1a; background: var(--yellow); border: 0; border-radius: 9px; padding: .65em; cursor: pointer; }
+.sendf button[disabled] { opacity: .5; cursor: default; }
+.sendf small { grid-column: 1 / -1; color: var(--muted); min-height: 1.2em; }
 .score:empty { display: none; }
 .result .rdt { margin-top: .5em; font-size: .9em; opacity: .85; }
 .nk { display: grid; gap: .3em; } .nk span { font-weight: 600; color: var(--muted); font-size: .9em; }
@@ -1276,8 +1281,10 @@ quiz(3, 'Resultado do treinamento', { type: 'result', kind: 'Resultado', q: 'Tre
 // ---------- tarefas (minigames) ----------
 const cleanTxt = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent.replace(/(^|\. |✓ )\d+\.\s/g, '$1').replace(/[“”✓]/g, '').replace(/\p{Extended_Pictographic}\uFE0F?/gu, '').replace(/\s+/g, ' ').trim(); };
 let stepObs = null, lastStep = '';
-// registro protegido: pontos guardados em closure, 1 vez por tarefa, só 50 ou 100
-const LEDGER = (() => { const m = new Map(); return Object.freeze({ add: (i, p) => { if (!m.has(i) && (p === 50 || p === 100) && S[i] && S[i].game && S[i].game.type !== 'result') m.set(i, p); }, sum: () => [...m.values()].reduce((a, b) => a + b, 0), n: () => m.size, reset: () => m.clear() }); })();
+// registro protegido: pontos guardados em closure, 1 vez por tarefa, 100 menos 20 por erro
+// cole aqui a URL do App Script (Implantar > App da Web), terminando em /exec
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyztTGMuuHSqyodA7lpqOrPDX1zdarePx6ariYDCfuK7buXfPmp1xm7E4pE8ixapa9y/exec';
+const LEDGER = (() => { const m = new Map(); return Object.freeze({ add: (i, p) => { if (!m.has(i) && (Number.isInteger(p) && p >= 0 && p <= 100 && p % 20 === 0) && S[i] && S[i].game && S[i].game.type !== 'result') m.set(i, p); }, sum: () => [...m.values()].reduce((a, b) => a + b, 0), n: () => m.size, reset: () => m.clear() }); })();
 let resultGuard = null;
 let score = 0, answered = {}, holdSt = null, taskTimers = [], radioKeys = null;
 const gameEl = $('game'), TASKS = () => S.filter(x => x.game && x.game.type !== 'result'), MAXPTS = () => TASKS().length * 100;
@@ -1286,7 +1293,7 @@ const later = (f, ms) => taskTimers.push(setTimeout(f, ms));
 const every = (f, ms) => taskTimers.push(setInterval(f, ms));
 function clearTask() { if (resultGuard) { resultGuard.disconnect(); resultGuard = null; } if (stepObs) { stepObs.disconnect(); stepObs = null; } radioKeys = null; document.querySelectorAll('.hud .hot').forEach(h => h.remove()); $('stage').classList.remove('cur'); taskTimers.forEach(t => { clearTimeout(t); clearInterval(t); }); taskTimers = []; if (holdSt) holdSt.cancel(); holdSt = null; }
 function stopSiren() { const ac = window.__sirAC; window.__sirAC = null; if (ac) try { ac.close(); } catch (e) {} }
-function hideGame() { stopSiren(); document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); window.__talk = null; document.querySelectorAll('.hud .rhud, .hud .inote').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
+function hideGame() { stopSiren(); document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); window.__talk = null; document.querySelectorAll('.hud .rhud, .hud .inote').forEach(h => h.remove()); document.querySelectorAll('.sendf').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
 // arrastar com ponteiro (mouse e toque); onDrop recebe o elemento-alvo sob o dedo
 function drag(item, onDrop, onMove) {
   item.style.touchAction = 'none';
@@ -1308,11 +1315,11 @@ const BOTEMB = link => `<div class="dsc emb2"><div class="eb2"><div class="et">�
         <div class="el">🧭 Painel Dashboard de desempenho:</div>${link ? '<a href="#" class="vp" id="vp">Ver Painel</a><span class="vph" aria-hidden="true">👈 clique aqui</span>' : '<span class="vp0">Ver Painel</span>'}
         <div class="ban"><span>🚒</span><b>BOMBEIROS BGR</b><span>🛡️</span></div></div><div class="logo">🚒<small>BGR</small></div></div>`;
 function renderGame(G, i) {
-  clearTask(); gameEl.classList.remove('wide'); stopSiren(); window.__talk = null; document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio', 'porta', 'sirene', 'venda', 'hosp'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
+  document.querySelectorAll('.sendf').forEach(h => h.remove()); clearTask(); gameEl.classList.remove('wide'); stopSiren(); window.__talk = null; document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio', 'porta', 'sirene', 'venda', 'hosp'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
   $('gk').textContent = G.kind; $('gs').textContent = score + ' pts'; $('gq').textContent = G.q;
   const O = $('go'), F = $('gf'), N = $('gn'); O.innerHTML = ''; O.className = 'task t-' + G.type; F.innerHTML = G.hint || ''; F.className = 'fb'; N.hidden = true; N.textContent = 'Continuar ▶';
   let tries = 0, over = false;
-  const finish = () => { if (over) return; over = true; clearTask(); if (!(i in answered)) { answered[i] = 1; score += tries ? 50 : 100; LEDGER.add(i, tries ? 50 : 100); } $('gs').textContent = score + ' pts'; $('score').textContent = '★ ' + score + ' pts';
+  const finish = () => { if (over) return; over = true; clearTask(); if (!(i in answered)) { answered[i] = 1; const p = Math.max(0, 100 - 20 * tries); score += p; LEDGER.add(i, p); } $('gs').textContent = score + ' pts'; $('score').textContent = '★ ' + score + ' pts';
     F.innerHTML = '<b>TAREFA CONCLUÍDA!</b> ' + G.why; say('Tarefa concluída! ' + G.why); F.className = 'fb ok'; N.hidden = false; N.focus({ preventScroll: true }); mark('ok'); gameEl.classList.add('done'); later(() => gameEl.classList.remove('done'), 900); };
   const miss = msg => { if (over) return; tries++; F.innerHTML = '<b>Ops!</b> ' + msg; say(cleanTxt(msg)); F.className = 'fb bad'; mark('bad'); gameEl.classList.remove('err'); void gameEl.offsetWidth; gameEl.classList.add('err'); later(() => { if (!over) mark(null); }, 700); };
 
@@ -1752,7 +1759,14 @@ function renderGame(G, i) {
     resultGuard = new MutationObserver(() => { if (S[idx].game && S[idx].game.type === 'result') { resultGuard.disconnect(); if (O.innerHTML !== orig) O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } });
     resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true });
     every(() => { if (S[idx].game && S[idx].game.type === 'result' && O.innerHTML !== orig) { resultGuard.disconnect(); O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } }, 300);
-    F.innerHTML = 'Cada tarefa vale 100 pontos sem erro e 50 depois de um erro.'; N.hidden = false; N.textContent = '↺ Refazer treinamento';
+    const fm = el('form', 'sendf', `<input id="snome" placeholder="Nome do recruta" maxlength="60" required autocomplete="off"><input id="srg" placeholder="RG" maxlength="20" required inputmode="numeric" autocomplete="off"><button type="submit">📤 Enviar nota</button><small id="smsg"></small>`); O.after(fm);
+    fm.onsubmit = e => { e.preventDefault(); const nome = $('snome').value.trim(), rg = $('srg').value.trim(), m = $('smsg'), bt = fm.querySelector('button');
+      if (!nome || !rg) { m.textContent = 'Preencha nome e RG.'; return; }
+      if (!SHEET_URL) { m.textContent = '⚠️ Planilha ainda não configurada.'; return; }
+      bt.disabled = true; m.textContent = 'Enviando…';
+      const body = new URLSearchParams({ nome, rg, pontos: (MAXPTS() ? Math.round(LEDGER.sum() / MAXPTS() * 10000) / 10000 : 0).toString(), data: new Date().toLocaleString('pt-BR') });
+      fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body }).then(() => { m.textContent = '✅ Nota enviada!'; fm.querySelectorAll('input').forEach(x => x.disabled = true); }).catch(() => { m.textContent = '❌ Falha ao enviar. Tente de novo.'; bt.disabled = false; }); };
+    F.innerHTML = 'Cada tarefa vale 100 pontos; cada erro desconta 20 pontos da nota final.'; N.hidden = false; N.textContent = '↺ Refazer treinamento';
   }
 }
 function watchSteps(G) {
