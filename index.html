@@ -258,6 +258,12 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .vbar.wail button[data-k="som"] { animation: glow .4s infinite; }
 .sstat { display: flex; gap: .4em; flex-wrap: wrap; } .sstat span { padding: .3em .7em; border-radius: 999px; background: #2A2D3A; color: var(--muted); font-weight: 600; } .sstat span.on { background: rgba(79,180,119,.2); color: #8FE0AE; }
 .game.wide { inset: 4% 2% 4%; } .game.wide h2 { display: none; }
+.imn { position: absolute; z-index: 6; pointer-events: auto; display: grid; gap: 4px; width: clamp(150px, 19vw, 210px); transform: translate(-115%, -30%); }
+.imn button { display: flex; align-items: center; gap: .7em; background: rgba(28,28,32,.94); border: 0; border-right: 4px solid #3A3A40; border-radius: 6px; padding: .5em .8em; color: #D8D8DC; font: 500 clamp(11px, 1.1vw, 14px) var(--body); cursor: pointer; text-align: left; }
+.imn button:hover { background: rgba(44,44,50,.97); border-right-color: #E5533D; color: #fff; } .imn button svg { width: 1.1em; height: 1.1em; flex: none; opacity: .85; }
+.imn button.hl { border-right-color: #E5533D; color: #fff; } .imn button.ho { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; }
+.inote { position: absolute; left: 1.5%; bottom: 27%; z-index: 6; background: rgba(22,22,26,.95); border-radius: 10px; padding: .6em .9em; display: flex; gap: .6em; max-width: 34%; color: #E8E8EA; font: 400 clamp(11px, 1.1vw, 14px) var(--body); animation: pop .3s; }
+.inote i { width: 1.2em; height: 1.2em; border-radius: 50%; background: #D8322A; color: #fff; font: 700 .8em/1.5em var(--body); text-align: center; font-style: normal; flex: none; margin-top: .1em; } .inote b { display: block; font-weight: 600; }
 .pmn { display: grid; gap: .3em; } .pmn button { display: flex; gap: .6em; align-items: center; text-align: left; background: rgba(30,30,34,.95); border: 1px solid #333338; border-radius: 8px; padding: .45em .7em; color: #EDEDF0; font: 500 .95em var(--body); cursor: pointer; } .pmn button.hl { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; }
 .trd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: .6em; font-size: .85em; } .tinv { position: relative; min-width: 0; overflow: hidden; } .tneg { min-width: 0; } .tinv .ivg, .tneg .nslots { grid-template-columns: repeat(5, minmax(0, 1fr)); } .tinv .kg { flex: none; } .ivg .it { position: relative; } .ivg .it em { position: absolute; top: .1em; left: .3em; font: 700 .55em var(--body); font-style: normal; color: #fff; }
 .ivg .kt b, .kt0 { color: #fff; background: #D8322A; border-radius: 6px; width: 1.3em; height: 1.3em; display: grid; place-items: center; font-size: .9em; } .ivg .rd { outline: 2px solid #F2C94C; animation: glow 1.2s infinite; cursor: grab; }
@@ -506,6 +512,7 @@ function prop(kind) {
   const g = new THREE.Group();
   if (kind === 'phone') box(.07, .13, .015, '#1A1820', 0, -.02, .06, g);
   if (kind === 'radio') { box(.08, .16, .05, '#2A2830', 0, 0, .06, g); cyl(.008, .008, .12, '#2A2830', .025, .13, .06, g); }
+  if (kind === 'syringe') { box(.04, .2, .04, '#F5D45A', 0, -.1, .1, g); box(.012, .08, .012, '#C8CCD2', 0, -.24, .1, g); box(.06, .02, .06, '#9AA0A8', 0, .01, .1, g); }
   if (kind === 'kit') { box(.26, .18, .12, '#D8432F', 0, -.08, .1, g); box(.04, .12, .01, '#fff', 0, -.08, .165, g); box(.12, .04, .01, '#fff', 0, -.08, .165, g); }
 
   if (kind === 'pao') { const m = sph(.09, '#D9A35A', 0, -.04, .1, g); m.scale.set(1.6, .8, 1); }
@@ -616,7 +623,7 @@ const camTo = (x, y, z, lx = 0, ly = 1.1, lz = 0) => { camera.position.set(x, y,
 // ---------- cenas ----------
 const S = [];
 const add = (act, title, dur, narr, setup, card = null) => S.push({ act, title, dur, narr, setup, card });
-const quiz = (act, title, game) => S.push({ act, title, dur: 2, narr: game.q, setup: game.type === 'hold' ? cprScene : game.type === 'hostage' ? hostageScene : game.type === 'aggr' ? aggrScene : game.type === 'resc' ? rescScene : game.type === 'gponto' ? gpScene : game.type === 'roupa' ? roupaScene : game.type === 'loja' || game.type === 'radio' ? lojaScene : game.type === 'veic' ? veicScene : game.type === 'porta' ? doorScene : game.type === 'sirene' ? sirScene : game.type === 'venda' ? vendaScene : cardScene(['', '#1F2B4E', '#4A3A1A', '#26402A'][act]), game });
+const quiz = (act, title, game) => S.push({ act, title, dur: 2, narr: game.q, setup: game.type === 'hold' ? cprScene : game.type === 'hostage' ? hostageScene : game.type === 'aggr' ? aggrScene : game.type === 'resc' ? rescScene : game.type === 'gponto' ? gpScene : game.type === 'roupa' ? roupaScene : game.type === 'loja' || game.type === 'radio' ? lojaScene : game.type === 'veic' ? veicScene : game.type === 'porta' ? doorScene : game.type === 'sirene' ? sirScene : game.type === 'venda' ? vendaScene : game.type === 'hosp' ? hospScene : cardScene(['', '#1F2B4E', '#4A3A1A', '#26402A'][act]), game });
 
 // Cena de cartão: fundo 3D desfocado + recruta pensativo
 // reanimação: bombeiro ajoelhado faz compressões enquanto E está pressionado
@@ -855,6 +862,29 @@ function vendaScene() {
     r.set(PAC.paid ? 'happy' : 'neutral'); pose(r, { bob: idle(r, t, 1) }); camTo(.8, 1.9, 6, .9, 1.2, 0);
     c.g.getWorldPosition(v); v.y += 1.15; v.project(camera); PAC.scr = [(v.x + 1) / 2, (1 - v.y) / 2]; };
 }
+// hospital: INJ.step 0 em pé, 1 deitado na maca, 2 injeção aplicada; INJ.scr = posição do paciente na tela
+const INJ = { scr: [0, 0], bed: [0, 0], step: 0, ts: 0 };
+function hospScene() {
+  const g = room('#BFD3D6', '#5E6A7A', 16); INJ.step = 0;
+  const bx = -1.6, b = bed(); b.position.set(bx, 0, -1.2); g.add(b);
+  const cart = new THREE.Group(); [0, .5, 1].forEach(y => box(.9, .04, .6, '#E8E8EA', 0, .3 + y, 0, cart)); [-.42, .42].forEach(x => [-.27, .27].forEach(z => cyl(.02, .02, 1.3, '#DADADF', x, .65, z, cart))); box(.6, .45, .4, '#2E3238', 0, 1.6, 0, cart); box(.5, .32, .02, '#9FD8C8', 0, 1.62, .21, cart); cart.position.set(bx - 2.6, 0, -2.2); g.add(cart);
+  const c = person('civ', { shirt: '#3A3E36', pants: '#1E1E22', skin: SKIN[1], hair: '#1E1A18' }); g.add(c.g);
+  const piv = new THREE.Group(); piv.position.set(bx + .85, .82, -1.2); piv.rotation.z = Math.PI / 2; g.add(piv);
+  const tag = textSprite('(9124)', { size: 256, scale: 1.4, font: '600 30px Inter, system-ui' }); tag.position.set(0, 2.2, 0); c.g.add(tag);
+  const r = person('rec'); g.add(r.g);
+  const v = new THREE.Vector3();
+  return t => {
+    const lay = INJ.step >= 1, inj = INJ.step === 2 && performance.now() - INJ.ts < 2200;
+    if (lay && c.g.parent !== piv) { piv.add(c.g); c.g.position.set(0, 0, 0); c.g.rotation.set(0, Math.PI / 2, 0); tag.position.set(.3, 1.6, .2); }
+    if (!lay) { c.g.position.set(bx + .7, 0, .4); c.g.rotation.y = -.3; pose(c, { bob: idle(c, t), aR: .08 }); }
+    else pose(c, { aR: INJ.step === 2 ? .2 : 2.6, fR: INJ.step === 2 ? 0 : 1.6 });
+    c.set(INJ.step === 2 ? 'happy' : 'sad'); emote(c, INJ.step === 2 && !inj ? '💚' : null);
+    r.set(inj ? 'determined' : INJ.step === 2 ? 'happy' : 'neutral');
+    if (inj) { r.g.position.set(bx - .4, 0, -.5); r.g.rotation.y = Math.PI; pose(r, { lean: .35, aR: 1.3, fR: .4 + .3 * Math.sin(t * 9) }); hold(r, 1, 'syringe'); } else { r.g.position.set(bx - 1.1, 0, -.35); r.g.rotation.y = 2.6; pose(r, { bob: idle(r, t, 1), aR: INJ.step === 1 ? .5 : .08 }); hold(r, 1, null); }
+    camTo(bx + 1.3, 4.2, 5.6, bx + .8, .4, -1);
+    (lay ? piv : c.g).getWorldPosition(v); if (lay) v.x -= .5; else v.y += 1.1; v.project(camera); INJ.scr = [(v.x + 1) / 2, (1 - v.y) / 2]; b.getWorldPosition(v); v.y += .6; v.project(camera); INJ.bed = [(v.x + 1) / 2, (1 - v.y) / 2];
+  };
+}
 function cardScene(col) { return () => { const g = room(col, '#2A2830'); const r = person('rec'); r.g.position.set(4.6, 0, 1); r.g.rotation.y = -.5; g.add(r.g); r.set('thinking'); emote(r, '?'); return t => { pose(r, { bob: idle(r, t), aR: .3 + .1 * Math.sin(t * 2) }); camTo(Math.sin(t * .2) * .3, 1.6, 7.5, 0, 1.4, 0); }; }; }
 
 // ===== ATO 1 =====
@@ -1070,6 +1100,10 @@ add(2, 'Cartão: kits médicos', 8, 'Kit médico: compra mil no hospital e reven
 quiz(2, 'Tarefa: comprar kit médico', {"type": "loja", "kind": "Tarefa · Comprar kits", "q": "Compre kits médicos com a doutora do hospital.", "why": "Cada bombeiro pode levar no máximo 4 kits médicos no inventário."});
 quiz(2, 'Tarefa: vender kit médico', {"type": "venda", "kind": "Tarefa · Vender kit médico", "q": "Ação encerrada e paciente resgatado. Venda 1 kit médico para ele.", "why": "Informe o preço (1 kit = 5.000) e o paciente coloca o valor. Venda só no final, depois de resgatar todos."});
 quiz(2, 'Tarefa: vender seringa de adrenalina', {"type": "venda", "syr": true, "kind": "Tarefa · Vender seringa", "q": "Só três bombeiros online. Venda 1 seringa de adrenalina para o paciente, por dez mil.", "why": "Seringa de adrenalina: compra 5.000, revenda 10.000 a unidade. Só com 3 bombeiros ou menos online."});
+add(2, 'Hospital: injeção no leito', 9, 'Paciente que precisa de tratamento vai para o hospital. Leve-o até a sala dos leitos e oriente ele a se deitar: é o próprio paciente que clica na maca. Com ele já deitado, aperte M para ativar o cursor, clique no paciente, abra Médico e escolha Aplicar injeção.', () => {
+  const tk = hospScene(); return t => { INJ.step = t > 6 ? 2 : t > 2.5 ? 1 : 0; if (t > 6 && !INJ.ts) INJ.ts = performance.now(); if (t < 1) INJ.ts = 0; tk(t); mark(t > 7.5 ? 'ok' : null); };
+});
+quiz(2, 'Tarefa: injeção no hospital', {"type": "hosp", "kind": "Tarefa · Injeção no leito", "q": "Você chegou à sala dos leitos com o paciente. Oriente ele a se deitar e aplique a injeção.", "why": "O paciente clica na maca e se deita; só então: cursor com M, clique no paciente, Médico e Aplicar injeção."});
 add(2, 'Agressão: não revide', 9, 'Foi agredido, ameaçado ou desacatado? Regra de ouro: não revide. Acalme a situação, grave print ou vídeo e acione a polícia. Em morte ilegal, o RDM, grave o clipe e denuncie no fórum, sem discutir no jogo.', () => {
   const g = street(); const a = person('civ2'), r = person('rec'), p = person('pol'); a.g.position.set(-1.4, 0, 0); a.g.rotation.y = .9; r.g.position.set(.6, 0, 0); r.g.rotation.y = -.9; p.g.rotation.y = -Math.PI / 2; g.add(a.g, r.g, p.g);
   return t => {
@@ -1251,7 +1285,7 @@ const later = (f, ms) => taskTimers.push(setTimeout(f, ms));
 const every = (f, ms) => taskTimers.push(setInterval(f, ms));
 function clearTask() { if (resultGuard) { resultGuard.disconnect(); resultGuard = null; } if (stepObs) { stepObs.disconnect(); stepObs = null; } radioKeys = null; document.querySelectorAll('.hud .hot').forEach(h => h.remove()); $('stage').classList.remove('cur'); taskTimers.forEach(t => { clearTimeout(t); clearInterval(t); }); taskTimers = []; if (holdSt) holdSt.cancel(); holdSt = null; }
 function stopSiren() { const ac = window.__sirAC; window.__sirAC = null; if (ac) try { ac.close(); } catch (e) {} }
-function hideGame() { stopSiren(); document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); window.__talk = null; document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
+function hideGame() { stopSiren(); document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); window.__talk = null; document.querySelectorAll('.hud .rhud, .hud .inote').forEach(h => h.remove()); gameEl.classList.remove('on'); gameEl.hidden = true; clearTask(); }
 // arrastar com ponteiro (mouse e toque); onDrop recebe o elemento-alvo sob o dedo
 function drag(item, onDrop, onMove) {
   item.style.touchAction = 'none';
@@ -1273,7 +1307,7 @@ const BOTEMB = link => `<div class="dsc emb2"><div class="eb2"><div class="et">�
         <div class="el">🧭 Painel Dashboard de desempenho:</div>${link ? '<a href="#" class="vp" id="vp">Ver Painel</a><span class="vph" aria-hidden="true">👈 clique aqui</span>' : '<span class="vp0">Ver Painel</span>'}
         <div class="ban"><span>🚒</span><b>BOMBEIROS BGR</b><span>🛡️</span></div></div><div class="logo">🚒<small>BGR</small></div></div>`;
 function renderGame(G, i) {
-  clearTask(); gameEl.classList.remove('wide'); stopSiren(); window.__talk = null; document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio', 'porta', 'sirene', 'venda'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
+  clearTask(); gameEl.classList.remove('wide'); stopSiren(); window.__talk = null; document.querySelectorAll('.hud .vbar').forEach(h => h.remove()); document.querySelectorAll('.hud .rhud').forEach(h => h.remove()); gameEl.classList.toggle('side', ['hold', 'hostage', 'aggr', 'resc', 'gponto', 'roupa', 'loja', 'veic', 'radio', 'porta', 'sirene', 'venda', 'hosp'].includes(G.type)); gameEl.hidden = false; requestAnimationFrame(() => gameEl.classList.add('on'));
   $('gk').textContent = G.kind; $('gs').textContent = score + ' pts'; $('gq').textContent = G.q;
   const O = $('go'), F = $('gf'), N = $('gn'); O.innerHTML = ''; O.className = 'task t-' + G.type; F.innerHTML = G.hint || ''; F.className = 'fb'; N.hidden = true; N.textContent = 'Continuar ▶';
   let tries = 0, over = false;
@@ -1593,6 +1627,31 @@ function renderGame(G, i) {
         st('<p>8. O paciente colocou <b>$' + PRS + '</b> no lado dele. Clique em <b>Confirmar</b>.</p>'); }, 1000); });
     W.addEventListener('input', e => { if (e.target.id === 'tsr') $('tsv').textContent = e.target.value; });
   }
+  if (G.type === 'hosp') {
+    const st = h => { $('hs').innerHTML = h; }; O.innerHTML = '<div class="gpi" id="hs"></div>'; const hud = document.querySelector('.hud'); let stage = 0;
+    const hot = el('button', 'hot', '<span>🛏️ clique na maca</span>'); hud.append(hot); const mn = el('div', 'imn hot2', ''); mn.hidden = true; hud.append(mn);
+    const ic = { x: '<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#BDBDC2"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="#1C1C20" stroke-width="1.6"/></svg>', f: '<svg viewBox="0 0 16 16"><path d="M1 3h5l1.5 1.5H15V13H1z" fill="#C8C8CC"/></svg>', mu: '<svg viewBox="0 0 16 16"><path d="M2 6h3l4-3v10l-4-3H2z" fill="#C8C8CC"/><path d="M11 5l4 6M15 5l-4 6" stroke="#C8C8CC" stroke-width="1.4"/></svg>', $: '<svg viewBox="0 0 16 16"><rect x="1" y="4" width="14" height="8" rx="1" fill="none" stroke="#C8C8CC" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="#C8C8CC"/></svg>', v: '<svg viewBox="0 0 16 16"><path d="M3.5 8a4.5 4.5 0 1 0 1.4-3.3" fill="none" stroke="#C8C8CC" stroke-width="1.6"/><path d="M2.5 2.5v3.5h3.5" fill="none" stroke="#C8C8CC" stroke-width="1.6"/></svg>', in: '<svg viewBox="0 0 16 16"><path d="M10 2l4 4M12 4L5 11l-1.5-.5L3 9l7-7M4 12l-2.5 2.5" stroke="#E8E8EA" stroke-width="1.6" fill="none"/></svg>', ma: '<svg viewBox="0 0 16 16"><path d="M1 9h14M2 9l2-3h8l2 3M3 12h1M12 12h1" stroke="#C8C8CC" stroke-width="1.4" fill="none"/></svg>' };
+    const menu = (items, on) => { mn.innerHTML = items.map(([k, t, h]) => `<button class="${h ? 'ho' : ''}" data-t="${t}">${ic[k]}${t}</button>`).join(''); mn.hidden = false; mn.querySelectorAll('button').forEach(b => b.onclick = () => { if (!over) on(b.dataset.t); }); };
+    every(() => { const [x, y] = INJ.scr; hot.style.left = x * 100 + '%'; hot.style.top = y * 100 + '%'; mn.style.left = x * 100 + '%'; mn.style.top = y * 100 + '%'; }, 50);
+    holdSt = { go: () => {}, stop: () => {}, cancel: () => { hot.remove(); mn.remove(); } };
+    hot.hidden = true; st('<p>1. Oriente o paciente a se deitar. <b>Quem clica na maca é ele</b>, não você. Escolha a fala:</p><div class="topt" id="ho">' + ['Clicar eu mesmo na maca', 'Por favor, deite-se na maca para eu aplicar a injeção.', 'Aplicar a injeção com ele em pé'].map(x => `<button class="act">${x}</button>`).join('') + '</div>');
+    $('ho').querySelectorAll('button').forEach(b => b.onclick = () => { if (over || stage) return; const t = b.textContent;
+      if (t.startsWith('Clicar')) return miss('A maca é clicada pelo paciente: oriente ele a se deitar.'); if (t.startsWith('Aplicar')) return miss('Primeiro o paciente se deita na maca.');
+      stage = .5; st('<p>💬 “Por favor, deite-se na maca…” O paciente está clicando na maca…</p>'); later(() => { stage = 1; INJ.step = 1; st('<p>✓ Paciente deitado. 2. Aperte <kbd>M</kbd> para ativar o cursor.</p><button class="act" id="hm">M · Ativar cursor</button>'); $('hm').onclick = showCur; holdSt.go = showCur; }, 1400); });
+    const showCur = () => { if (stage !== 1) return; stage = 2; hot.hidden = false; hot.innerHTML = '<span>🖱️ clique no paciente</span>'; hot.style.width = '18%'; hot.style.aspectRatio = '2.2'; $('stage').classList.add('cur'); st('<p>3. Cursor ativo. <b>Clique no paciente</b>.</p>'); holdSt.go = () => {}; };
+    hot.onclick = () => { if (over) return;
+      if (stage === 2) { stage = 3; hot.hidden = true; st('<p>4. Clique em <b>Médico</b>.</p>');
+        const main = () => menu([['x', 'Fechar'], ['f', 'Carregar'], ['f', 'Médico', 1], ['mu', 'Mutar'], ['$', 'Enviar dinheiro']], t => {
+          if (t === 'Fechar') { mn.hidden = true; hot.hidden = false; stage = 2; st('<p>Menu fechado. <b>Clique no paciente</b> de novo.</p>'); return; }
+          if (t !== 'Médico') return miss(t === 'Carregar' ? 'Carregar (/c) é para tirar o ferido da via. Aqui ele já está no leito: abra Médico.' : t + ' não trata o paciente. Abra Médico.');
+          stage = 4; st('<p>5. Clique em <b>Aplicar injeção</b>.</p>');
+          menu([['v', 'Voltar'], ['in', 'Aplicar injeção', 1], ['ma', 'Colocar na maca']], t2 => {
+            if (t2 === 'Voltar') { stage = 3; st('<p>4. Clique em <b>Médico</b>.</p>'); return main(); }
+            if (t2 !== 'Aplicar injeção') return miss('O paciente já está deitado no leito. Escolha Aplicar injeção.');
+            mn.hidden = true; $('stage').classList.remove('cur'); INJ.step = 2; INJ.ts = performance.now(); st('<p>💉 Aplicando injeção…</p>');
+            later(() => { hud.insertAdjacentHTML('beforeend', `<div class="inote"><i>i</i><div><b>Informação</b>Você aplicou injeção em Red Cruz(9124).</div></div>`); st('<p>✓ Injeção aplicada. Paciente tratado.</p>'); finish(); }, 2200); }); });
+        main(); } };
+  }
   if (G.type === 'sirene') {
     const C = '#E4E4E8', SW = 'stroke="' + C + '" stroke-width="2.6" stroke-linecap="round" fill="none"';
     const beacon = '<path d="M14 21v-6.5a6 6 0 0 1 12 0V21z" fill="' + C + '"/><rect x="10.5" y="21" width="19" height="3.2" rx="1.2" fill="' + C + '"/>';
@@ -1701,7 +1760,7 @@ function watchSteps(G) {
 $('gn').onclick = () => { if (S[idx].game && S[idx].game.type === 'result') { score = 0; answered = {}; LEDGER.reset(); $('score').textContent = ''; load(0); } else load(idx + 1); if (!playing) setPlay(true); };
 document.addEventListener('keydown', e => { if (!gameEl.hidden && radioKeys && !e.repeat) { const k = e.key.toLowerCase(); if (k === 'capslock' && radioKeys.caps) { radioKeys.caps(); return; } if (radioKeys[k]) { e.preventDefault(); radioKeys[k](); return; } } });
 document.addEventListener('keydown', e => { if (e.key === 'CapsLock' && !radioKeys && window.__talk && !gameEl.hidden) window.__talk(); });
-document.addEventListener('keydown', e => { if (gameEl.hidden || e.repeat || radioKeys) return; const ty = S[idx].game && S[idx].game.type, key = e.key.toLowerCase(); if (key === (ty === 'loja' || ty === 'venda' ? 'm' : ty === 'copom' ? 'o' : ty === 'sirene' ? 'h' : 'e') && holdSt) { e.preventDefault(); holdSt.go(); } });
+document.addEventListener('keydown', e => { if (gameEl.hidden || e.repeat || radioKeys) return; const ty = S[idx].game && S[idx].game.type, key = e.key.toLowerCase(); if (key === (ty === 'loja' || ty === 'venda' || ty === 'hosp' ? 'm' : ty === 'copom' ? 'o' : ty === 'sirene' ? 'h' : 'e') && holdSt) { e.preventDefault(); holdSt.go(); } });
 document.addEventListener('keyup', e => { if (e.key.toLowerCase() === 'e' && holdSt) holdSt.stop(); });
 // ---------- player ----------
 const ACTS = { 1: 'Entrar em serviço', 2: 'O chamado', 3: 'Fim do turno' };
