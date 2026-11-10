@@ -387,7 +387,7 @@ const SKIN = ['#E8B48A', '#C98F62', '#8E5B3A', '#F1C9A5'];
 const LOOK = {
   rec: { shirt: '#B8362C', pants: '#33304A', skin: SKIN[0], hair: '#3A2A22', hat: 'capacete', hatCol: '#D8432F', stripe: true, cross: true },
   des: { shirt: '#D98A2B', pants: '#4A4038', skin: SKIN[1], hair: '#1E1A18', hat: 'capacete', hatCol: '#E8AA38', stripe: true },
-  ofi: { shirt: '#5E7A46', pants: '#46553A', skin: SKIN[2], hair: '#151212', hat: 'boina', hatCol: '#2F4A2A', stripe: false, camo: true },
+  ofi: { shirt: '#A3302A', pants: '#5E1C18', skin: SKIN[2], hair: '#151212', hat: 'boina', hatCol: '#7A1712', stripe: false, camo: true },
   civ: { shirt: '#4F7FB0', pants: '#3B3550', skin: SKIN[3], hair: '#7A4A2A', hat: null },
   civ2: { shirt: '#8A5BA8', pants: '#2F2D3A', skin: SKIN[1], hair: '#1E1A18', hat: null },
   pol: { shirt: '#2F3F6A', pants: '#1F2A3A', skin: SKIN[0], hair: '#2A1E18', hat: 'bone', hatCol: '#1F2A4A' },
@@ -406,7 +406,7 @@ function person(kind, over = {}) {
   oval(cyl(.262, .262, .08, '#25222A', 0, .05, 0, body, 24)); box(.08, .06, .03, '#B8A060', 0, .05, .165, body);
   if (o.stripe) { oval(cyl(.272, .272, .055, '#F2D04E', 0, .2, 0, body, 24), .64); oval(cyl(.29, .29, .04, '#F2D04E', 0, .46, 0, body, 24), .64); }
   if (o.cross) { box(.05, .16, .02, '#F4EFE4', .14, .58, .175, body); box(.16, .05, .02, '#F4EFE4', .14, .58, .175, body); }
-  if (o.camo) [[-.15, .5], [.12, .3], [-.05, .15], [.18, .58], [-.2, .25]].forEach(([x, y], i) => box(.13, .08, .02, i % 2 ? '#3F5530' : '#8A9A62', x * .8, y, .17, body));
+  if (o.camo) [[-.15, .5], [.12, .3], [-.05, .15], [.18, .58], [-.2, .25], [.02, .42], [.16, .12], [-.18, .62]].forEach(([x, y], i) => [.17, -.17].forEach(z => { const m = box(.13 + (i % 2) * .05, .07 + (i % 3) * .02, .02, ['#6A1712', '#D2574A', '#4A100C'][i % 3], x * .8, y, z, body); m.rotation.z = (i % 3 - 1) * .4; }));
   if (o.coat) { oval(cyl(.27, .34, .44, o.coat, 0, -.17, 0, body, 24), .66); [-1, 1].forEach(s => box(.05, .5, .02, '#D9D5CB', s * .07, .4, .19, body)); box(.12, .1, .02, '#3F6FB5', -.15, .42, .19, body); }
   if (o.medals) { [-1, 1].forEach(s => { box(.18, .04, .2, '#E0B84A', s * .3, .71, 0, body); for (let k = 0; k < 3; k++) sph(.012, '#E0B84A', s * .3, .68, -.06 + k * .06, body); });
     ['#D8432F', '#3F6FB5', '#4FB477', '#F2C94C'].forEach((c, k) => { box(.045, .035, .02, c, -.2 + (k % 2) * .055, .54 - Math.floor(k / 2) * .05, .175, body); }); [0, 1].forEach(k => sph(.024, '#E0B84A', -.2 + k * .055, .43, .18, body));
