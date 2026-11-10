@@ -120,6 +120,9 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .sendf button { grid-column: 1 / -1; font: 700 1em var(--body); color: #1a1a1a; background: var(--yellow); border: 0; border-radius: 9px; padding: .65em; cursor: pointer; }
 .sendf button[disabled] { opacity: .5; cursor: default; }
 .sendf small { grid-column: 1 / -1; color: var(--muted); min-height: 1.2em; }
+.sendf .scf { display: block; color: var(--fg); background: rgba(242,201,76,.1); border: 1px solid rgba(242,201,76,.4); border-radius: 9px; padding: .6em .75em; line-height: 1.6; }
+.sendf .scf button { grid-column: auto; display: inline-block; width: auto; padding: .4em .8em; margin-top: .4em; }
+.sendf .scf .sn { background: rgba(255,255,255,.12); color: var(--fg); }
 .score:empty { display: none; }
 .result .rdt { margin-top: .5em; font-size: .9em; opacity: .85; }
 .nk { display: grid; gap: .3em; } .nk span { font-weight: 600; color: var(--muted); font-size: .9em; }
@@ -1766,9 +1769,16 @@ function renderGame(G, i) {
       if (!/^\p{Lu}\p{L}*$/u.test(nome)) { m.textContent = 'Nome: apenas letras, sem espaços.'; return; }
       if (!/^\d{2,7}$/.test(rg)) { m.textContent = 'RG: apenas números, de 2 a 7 dígitos.'; return; }
       if (!SHEET_URL) { m.textContent = '⚠️ Planilha ainda não configurada.'; return; }
+      let last = 0; try { last = +localStorage.getItem('bgrSent') || 0; } catch (x) {}
+      const wait = last + 3600000 - Date.now(); if (wait > 0) { m.textContent = '⏳ Você já enviou uma nota. Aguarde ' + Math.ceil(wait / 60000) + ' min para enviar de novo.'; return; }
+      const pct = MAXPTS() ? LEDGER.sum() / MAXPTS() : 0;
+      const send = () => {
       bt.disabled = true; m.textContent = 'Enviando…';
       const body = new URLSearchParams({ nome, rg, pontos: (MAXPTS() ? Math.round(LEDGER.sum() / MAXPTS() * 10000) / 10000 : 0).toString(), data: new Date().toLocaleString('pt-BR') });
-      fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body }).then(() => { m.textContent = '✅ Nota enviada!'; fm.querySelectorAll('input').forEach(x => x.disabled = true); }).catch(() => { m.textContent = '❌ Falha ao enviar. Tente de novo.'; bt.disabled = false; }); };
+      fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body }).then(() => { m.textContent = '✅ Nota enviada!'; try { localStorage.setItem('bgrSent', Date.now()); } catch (x) {} fm.querySelectorAll('input').forEach(x => x.disabled = true); }).catch(() => { m.textContent = '❌ Falha ao enviar. Tente de novo.'; bt.disabled = false; }); };
+      bt.disabled = true;
+      m.innerHTML = `<span class="scf"><b>Confirme seus dados:</b><br>Nome: <b>${nome}</b> · RG: <b>${rg}</b> · Nota: <b>${(pct * 100).toFixed(2).replace('.', ',')}%</b><br>Os dados estão corretos? Só é possível enviar 1 vez por hora.<br><button type="button" class="sy">✅ Sim, enviar</button> <button type="button" class="sn">✏️ Corrigir</button></span>`;
+      m.querySelector('.sy').onclick = send; m.querySelector('.sn').onclick = () => { m.textContent = ''; bt.disabled = false; $('snome').focus(); }; };
     F.innerHTML = 'Cada tarefa vale 100 pontos; cada erro desconta 20 pontos da nota final.'; N.hidden = false; N.textContent = '↺ Refazer treinamento';
   }
 }
