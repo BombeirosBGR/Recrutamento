@@ -1759,9 +1759,12 @@ function renderGame(G, i) {
     resultGuard = new MutationObserver(() => { if (S[idx].game && S[idx].game.type === 'result') { resultGuard.disconnect(); if (O.innerHTML !== orig) O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } });
     resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true });
     every(() => { if (S[idx].game && S[idx].game.type === 'result' && O.innerHTML !== orig) { resultGuard.disconnect(); O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } }, 300);
-    const fm = el('form', 'sendf', `<input id="snome" placeholder="Nome do recruta" maxlength="60" required autocomplete="off"><input id="srg" placeholder="RG" maxlength="20" required inputmode="numeric" autocomplete="off"><button type="submit">📤 Enviar nota</button><small id="smsg"></small>`); O.after(fm);
+    const fm = el('form', 'sendf', `<input id="snome" placeholder="Nome do recruta" maxlength="60" required autocomplete="off"><input id="srg" placeholder="RG" maxlength="7" minlength="2" required inputmode="numeric" pattern="[0-9]{2,7}" autocomplete="off"><button type="submit">📤 Enviar nota</button><small id="smsg"></small>`); O.after(fm);
+    $('snome').oninput = e => { const t = e.target, v = t.value.replace(/[^\p{L}]/gu, ''); t.value = v.charAt(0).toUpperCase() + v.slice(1); };
+    $('srg').oninput = e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 7); };
     fm.onsubmit = e => { e.preventDefault(); const nome = $('snome').value.trim(), rg = $('srg').value.trim(), m = $('smsg'), bt = fm.querySelector('button');
-      if (!nome || !rg) { m.textContent = 'Preencha nome e RG.'; return; }
+      if (!/^\p{Lu}\p{L}*$/u.test(nome)) { m.textContent = 'Nome: apenas letras, sem espaços.'; return; }
+      if (!/^\d{2,7}$/.test(rg)) { m.textContent = 'RG: apenas números, de 2 a 7 dígitos.'; return; }
       if (!SHEET_URL) { m.textContent = '⚠️ Planilha ainda não configurada.'; return; }
       bt.disabled = true; m.textContent = 'Enviando…';
       const body = new URLSearchParams({ nome, rg, pontos: (MAXPTS() ? Math.round(LEDGER.sum() / MAXPTS() * 10000) / 10000 : 0).toString(), data: new Date().toLocaleString('pt-BR') });
