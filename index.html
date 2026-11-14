@@ -1363,12 +1363,12 @@ add(3, 'Promoção', 9, 'Com conduta exemplar e horas cumpridas, o recruta sobe 
 quiz(3, 'Resultado do treinamento', { type: 'result', kind: 'Resultado', q: 'Treinamento concluído! Veja sua pontuação.' });
 
 // ---------- tarefas (minigames) ----------
-const cleanTxt = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent.replace(/(^|\. |✓ )[(d+)]+\.\s/g, '$1').replace(/[“”✓]/g, '').replace(/\p{Extended_Pictographic}\uFE0F?/gu, '').replace(/\s+/g, ' ').trim(); };
+const cleanTxt = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent.replace(/(^|\. |✓ )\d+\.\s/g, '$1').replace(/[“”✓]/g, '').replace(/\p{Extended_Pictographic}\uFE0F?/gu, '').replace(/\s+/g, ' ').trim(); };
 let stepObs = null, lastStep = '';
 // registro protegido: pontos guardados em closure, 1 vez por tarefa, 100 menos 20 por erro
 // cole aqui a URL do App Script (Implantar > App da Web), terminando em /exec
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyztTGMuuHSqyodA7lpqOrPDX1zdarePx6ariYDCfuK7buXfPmp1xm7E4pE8ixapa9y/exec';
-const LEDGER = (() => { const m = new Map(); return Object.freeze({ add: (i, p) => { if (!m.has(i) && (Number.isInteger(p) && p >= 0 && p <= 100 && p % 20 === 0) && S[i] && S[i].game && S[i].game.type !== 'result') m.set(i, p); }, sum: () => [...m.values()].reduce((a, b) => a + b, 0), n: () => m.size, reset: () => m.clear() }); })();
+const LEDGER = (() => { const m = new Map(); return Object.freeze({ add: (i, p) => { if (!m.has(i) && (Number.isInteger(p) && p >= 0 && p <= 100 && p % 20 === 0) && S[i] && S[i].game && S[i].game.type !== 'result') m.set(i, p); }, sum: () => [...m.values()].reduce((a, b) => a + b, 0), n: () => m.size, dump: () => [...m], reset: () => m.clear() }); })();
 let resultGuard = null;
 let score = 0, answered = {}, holdSt = null, taskTimers = [], radioKeys = null;
 const gameEl = $('game'), TASKS = () => S.filter(x => x.game && x.game.type !== 'result'), MAXPTS = () => TASKS().length * 100;
@@ -1404,7 +1404,7 @@ function renderGame(G, i) {
   $('gk').textContent = G.kind; $('gs').textContent = score + ' pts'; $('gq').textContent = G.q;
   const O = $('go'), F = $('gf'), N = $('gn'); O.innerHTML = ''; O.className = 'task t-' + G.type; F.innerHTML = G.hint || ''; F.className = 'fb'; N.hidden = true; N.textContent = 'Continuar ▶';
   let tries = 0, over = false;
-  const finish = () => { if (over) return; over = true; clearTask(); if (!(i in answered)) { answered[i] = 1; const p = Math.max(0, 100 - 20 * tries); score += p; LEDGER.add(i, p); } $('gs').textContent = score + ' pts'; $('score').textContent = '★ ' + score + ' pts';
+  const finish = () => { if (over) return; over = true; clearTask(); if (!(i in answered)) { answered[i] = 1; const p = Math.max(0, 100 - 20 * tries); score += p; LEDGER.add(i, p); saveProg(); } $('gs').textContent = score + ' pts'; $('score').textContent = '★ ' + score + ' pts';
     F.innerHTML = '<b>TAREFA CONCLUÍDA!</b> ' + G.why; say('Tarefa concluída! ' + G.why); F.className = 'fb ok'; N.hidden = false; N.focus({ preventScroll: true }); mark('ok'); gameEl.classList.add('done'); later(() => gameEl.classList.remove('done'), 900); };
   const miss = msg => { if (over) return; tries++; F.innerHTML = '<b>Ops!</b> ' + msg; say(cleanTxt(msg)); F.className = 'fb bad'; mark('bad'); gameEl.classList.remove('err'); void gameEl.offsetWidth; gameEl.classList.add('err'); later(() => { if (!over) mark(null); }, 700); };
 
@@ -1544,9 +1544,9 @@ function renderGame(G, i) {
         <label><span>Motivo da ausência <i>*</i></span><textarea id="fmo" rows="2" placeholder="Explique o motivo da ausência"></textarea></label>
         <div class="mb"><button id="mc">Cancelar</button><button class="pri" id="ms">Enviar</button></div></div>`;
         O.querySelector('.dsc:not(.emb2)').hidden = true; $('bigE').hidden = true; $('fd1').focus({ preventScroll: true }); O.querySelectorAll('.dmod input, .dmod textarea').forEach(x => x.addEventListener('keydown', e => e.stopPropagation()));
-        ['fd1', 'fd2'].forEach(id => $(id).addEventListener('input', e => { let v = e.target.value.replace(/[(d+)]/g, '').slice(0, 8); if (v.length > 4) v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4); else if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2); e.target.value = v; }));
+        ['fd1', 'fd2'].forEach(id => $(id).addEventListener('input', e => { let v = e.target.value.replace(/\D/g, '').slice(0, 8); if (v.length > 4) v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4); else if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2); e.target.value = v; }));
         $('mx').onclick = $('mc').onclick = () => { $('modal').innerHTML = ''; O.querySelector('.dsc:not(.emb2)').hidden = false; $('bigE').hidden = false; };
-        $('ms').onclick = () => { const p = v => { const m = /^([(d+)]{2})\/(\d{2})\/(\d{4})$/.exec(v); if (!m) return null; const d = new Date(+m[3], m[2] - 1, +m[1]); return d.getDate() === +m[1] && d.getMonth() === m[2] - 1 ? d : null; };
+        $('ms').onclick = () => { const p = v => { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v); if (!m) return null; const d = new Date(+m[3], m[2] - 1, +m[1]); return d.getDate() === +m[1] && d.getMonth() === m[2] - 1 ? d : null; };
           const a = p($('fd1').value), b = p($('fd2').value), mo = $('fmo').value.trim(); const bad = x => { $(x).classList.add('bad'); later(() => $(x) && $(x).classList.remove('bad'), 900); };
           if (!a) { bad('fd1'); return miss('Data inicial no formato DD/MM/AAAA, por exemplo ' + fmt(amanha) + '.'); }
           if (!b) { bad('fd2'); return miss('Preencha a data final. Se for só 1 dia, repita a data inicial.'); }
@@ -1572,7 +1572,7 @@ function renderGame(G, i) {
           <div class="drop" id="drop" hidden></div><div class="pmenu" id="pm" hidden></div><div class="mmod" id="mm" hidden></div></div>`;
         const sr = $('sr'); sr.addEventListener('keydown', e => e.stopPropagation()); draw(); guide();
         sr.addEventListener('input', () => { const q = sr.value.trim().toLowerCase(), d = $('drop'); if (q.length < 2) { d.hidden = true; return; }
-          const raw = sr.value.trim(), num = /^[(d+)]+$/.test(raw); MEM[0] = num ? ['Fulano', raw, 'Aluno', 'Alfa', 'Manhã'] : [raw, '12305', 'Aluno', 'Alfa', 'Manhã']; const hit = [MEM[0]]; d.hidden = false;
+          const raw = sr.value.trim(), num = /^\d+$/.test(raw); MEM[0] = num ? ['Fulano', raw, 'Aluno', 'Alfa', 'Manhã'] : [raw, '12305', 'Aluno', 'Alfa', 'Manhã']; const hit = [MEM[0]]; d.hidden = false;
           d.innerHTML = '<small>MEMBROS ENCONTRADOS</small>' + (hit.length ? hit.map((m, j) => `<button data-j="${MEM.indexOf(m)}"><i>🧑‍🚒</i><span><b>${num ? m[0] : `<mark>${m[0].replace(/</g, '&lt;')}</mark>`}</b><em>RG ${num ? `<mark>${m[1]}</mark>` : m[1]} • ${m[2]} • ${m[4]}</em></span>›</button>`).join('') : '<p>Nenhum membro com esse nome ou RG.</p>');
           d.querySelectorAll('button').forEach(bt => bt.onclick = () => openMember(MEM[+bt.dataset.j])); if (hit.length && stage === 0) { stage = 1; guide(); } });
         $('fp').onclick = () => { if (stage < 2) return miss('Primeiro busque seu nick ou RG e abra a ficha.'); const pm = $('pm'); pm.hidden = !pm.hidden;
@@ -1982,7 +1982,7 @@ function renderGame(G, i) {
       if (e.target.closest('.gx2')) miss('Não cancele: conclua a venda.');
     });
     W.addEventListener('click', e => { const ob = e.target.closest('#tci button'); if (!ob || stage !== 6) return; const raw = ob.textContent.replace('💬 ', '');
-      const n = +(raw.match(/[(d+)][\d.]*/) || ['0'])[0].replace(/\./g, '');
+      const n = +(raw.match(/\d[\d.]*/) || ['0'])[0].replace(/\./g, '');
       $('tcl').insertAdjacentHTML('beforeend', `<p><span>[Local]</span> BOMB|ALN.${window.__nick || 'Fulano'}: ${raw.replace(/</g, '&lt;')}</p>`);
       if (n !== PR) return miss(Y ? (n === 5000 ? '$5.000 é o preço de compra. A revenda da seringa é 10.000.' : 'Não pergunte: informe o preço padrão, 1 seringa = 10.000.') : n === 20000 ? '$20.000 é o valor de 4 kits. Para 1 kit, o preço padrão é 5.000.' : 'Não pergunte: informe o preço padrão, 1 kit = 5.000.');
       stage = 7; $('tci').querySelectorAll('button').forEach(x => x.disabled = true); ob.classList.add('on'); later(() => { $('tcl').insertAdjacentHTML('beforeend', '<p><span>[Local]</span> Red Cruz (9124): Fechado, coloquei os ' + PRK + '.</p>'); const m = $('tval'); m.textContent = '$' + PRS; m.classList.add('pop2'); $('tok').classList.add('hl');
@@ -2110,12 +2110,12 @@ function renderGame(G, i) {
     resultGuard = new MutationObserver(() => { if (S[idx].game && S[idx].game.type === 'result') { resultGuard.disconnect(); if (O.innerHTML !== orig) O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } });
     resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true });
     every(() => { if (S[idx].game && S[idx].game.type === 'result' && O.innerHTML !== orig) { resultGuard.disconnect(); O.innerHTML = orig; resultGuard.observe(O, { childList: true, subtree: true, characterData: true, attributes: true }); } }, 300);
-    const fm = el('form', 'sendf', `<input id="snome" placeholder="Nome do recruta" maxlength="60" required autocomplete="off"><input id="srg" placeholder="RG" maxlength="7" minlength="2" required inputmode="numeric" pattern="[0-9]{2,7}" autocomplete="off"><button type="submit">📤 Enviar nota</button><small id="smsg"></small>`); O.after(fm);
-    $('snome').oninput = e => { const t = e.target, v = t.value.replace(/[^\p{L}]/gu, ''); t.value = v.charAt(0).toUpperCase() + v.slice(1); };
-    $('srg').oninput = e => { e.target.value = e.target.value.replace(/[(d+)]/g, '').slice(0, 7); };
+    const fm = el('form', 'sendf', `<input id="snome" placeholder="Nome do recruta" maxlength="12" required autocomplete="off"><input id="srg" placeholder="RG" maxlength="7" minlength="2" required inputmode="numeric" pattern="[0-9]{2,7}" autocomplete="off"><button type="submit">📤 Enviar nota</button><small id="smsg"></small>`); O.after(fm);
+    $('snome').oninput = e => { const t = e.target, v = t.value.replace(/[^\p{L}]/gu, '').slice(0, 12); t.value = v.charAt(0).toUpperCase() + v.slice(1); };
+    $('srg').oninput = e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 7); };
     fm.onsubmit = e => { e.preventDefault(); const nome = $('snome').value.trim(), rg = $('srg').value.trim(), m = $('smsg'), bt = fm.querySelector('button');
       if (!/^\p{Lu}\p{L}*$/u.test(nome)) { m.textContent = 'Nome: apenas letras, sem espaços.'; return; }
-      if (!/^[(d+)]{2,7}$/.test(rg)) { m.textContent = 'RG: apenas números, de 2 a 7 dígitos.'; return; }
+      if (!/^\d{2,7}$/.test(rg)) { m.textContent = 'RG: apenas números, de 2 a 7 dígitos.'; return; }
       if (!SHEET_URL) { m.textContent = '⚠️ Planilha ainda não configurada.'; return; }
       let last = 0; try { last = +localStorage.getItem('bgrSent') || 0; } catch (x) {}
       const wait = last + 3600000 - Date.now(); if (wait > 0) { m.textContent = '⏳ Você já enviou uma nota. Aguarde ' + Math.ceil(wait / 60000) + ' min para enviar de novo.'; return; }
@@ -2123,7 +2123,7 @@ function renderGame(G, i) {
       const send = () => {
       bt.disabled = true; m.textContent = 'Enviando…';
       const body = new URLSearchParams({ nome, rg, pontos: (MAXPTS() ? Math.round(LEDGER.sum() / MAXPTS() * 10000) / 10000 : 0).toString(), data: new Date().toLocaleString('pt-BR') });
-      fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body }).then(() => { m.textContent = '✅ Nota enviada!'; try { localStorage.setItem('bgrSent', Date.now()); } catch (x) {} fm.querySelectorAll('input').forEach(x => x.disabled = true); }).catch(() => { m.textContent = '❌ Falha ao enviar. Tente de novo.'; bt.disabled = false; }); };
+      fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body }).then(() => { m.textContent = '✅ Nota enviada!'; try { localStorage.setItem('bgrSent', Date.now()); localStorage.removeItem('bgrProg'); } catch (x) {} fm.querySelectorAll('input').forEach(x => x.disabled = true); }).catch(() => { m.textContent = '❌ Falha ao enviar. Tente de novo.'; bt.disabled = false; }); };
       bt.disabled = true;
       m.innerHTML = `<span class="scf"><b>Confirme seus dados:</b><br>Nome: <b>${nome}</b> · RG: <b>${rg}</b> · Nota: <b>${(pct * 100).toFixed(2).replace('.', ',')}%</b><br>Os dados estão corretos? Só é possível enviar 1 vez por hora.<br><button type="button" class="sy">✅ Sim, enviar</button> <button type="button" class="sn">✏️ Corrigir</button></span>`;
       m.querySelector('.sy').onclick = send; m.querySelector('.sn').onclick = () => { m.textContent = ''; bt.disabled = false; $('snome').focus(); }; };
@@ -2184,6 +2184,7 @@ function load(i) {
   update = s.setup(); if (s.game) { renderGame(s.game, idx); if (s.game.type !== 'result') watchSteps(s.game); } else hideGame(); $('tag').textContent = `Ato ${s.act} · ${s.card ? s.card.title : s.title}`;
   $('count').textContent = `${idx + 1} / ${S.length}`;
   document.querySelectorAll('.chap button').forEach((b, j) => b.classList.toggle('cur', j === idx));
+  saveProg();
   const nr = s.game && s.game._first ? s.narr + ' ' + s.game._first : s.narr; if (playing) say(nr); else setSentences(nr);
 }
 function frame(now) {
@@ -2195,7 +2196,11 @@ function frame(now) {
   renderer.render(scene, camera); requestAnimationFrame(frame);
 }
 function setPlay(p) { playing = p; $('pp').textContent = p ? '⏸ Pausar' : '▶ Reproduzir'; if (!p && 'speechSynthesis' in window) { sayId++; speechSynthesis.cancel(); speaking = false; speechDone = true; } else if (p) { if (musicOn) startMusic(); say(S[idx].narr); } }
-$('play0').onclick = () => { $('start').hidden = true; load(0); setPlay(true); };
+// progresso salvo: continua de onde parou até a nota ser enviada
+function saveProg() { try { localStorage.setItem('bgrProg', JSON.stringify({ idx, l: LEDGER.dump() })); } catch (x) {} }
+let resumeIdx = 0;
+try { const p = JSON.parse(localStorage.getItem('bgrProg') || 'null'); if (p && Number.isInteger(p.idx) && p.idx >= 0 && p.idx < S.length) { resumeIdx = p.idx; (p.l || []).forEach(([i, v]) => { LEDGER.add(i, v); if (S[i]) answered[i] = 1; }); score = LEDGER.sum(); if (resumeIdx > 0 || LEDGER.n()) $('play0').textContent = `▶ Continuar treinamento (${resumeIdx + 1}/${S.length})`; } } catch (x) {}
+$('play0').onclick = () => { $('start').hidden = true; load(resumeIdx); setPlay(true); };
 $('pp').onclick = () => { $('start').hidden = true; setPlay(!playing); };
 $('next').onclick = () => { $('start').hidden = true; load(idx + 1); };
 $('prev').onclick = () => { $('start').hidden = true; load(idx - 1); };
