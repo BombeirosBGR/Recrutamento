@@ -1110,6 +1110,7 @@ add(2, 'Rede de chamados (F7)', 8, 'O paciente liga pelo celular, no F2, e o cha
     tex.needsUpdate = true; };
   const r = person('rec'); r.g.position.set(3.4, 0, .4); r.g.rotation.y = -.7; g.add(r.g);
   return t => {
+    let nf = document.querySelector('.hud .f7n'); if (!nf && t > .8 && t < 4) { nf = document.createElement('div'); nf.className = 'rhud ntf f7n'; nf.innerHTML = '<div class="inf" style="animation-delay:0s"><i>!</i><p><b>Informação</b>Novo chamado recebido! Pressione \'F7\' para visualizar.</p></div>'; document.querySelector('.hud').append(nf); } if (nf && (t >= 4 || t < .8)) nf.remove();
     c.set(t < 2 ? 'nervous' : 'happy'); emote(c, t < 2 ? '📞' : null); pose(c, { aR: 2.5, fR: 1.3, bob: idle(c, t) });
     const s = ease(seg(t, 1.6, 2.2)); tab.scale.setScalar(Math.max(.001, s)); draw(t > 2.4, t > 4.6, t);
     r.set(t < 4.6 ? 'neutral' : 'determined'); pose(r, { bob: idle(r, t), aR: t > 3.8 && t < 4.8 ? 1.3 : .08, fR: t > 3.8 && t < 4.8 ? 1.2 : 0 });
