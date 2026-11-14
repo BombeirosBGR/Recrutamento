@@ -196,6 +196,9 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .pmenu button { background: #fff; } .pmenu button.sel { background: #FBEEEE; color: #B3150F; font-weight: 700; } .pmenu button:hover { background: #F6E6E6; }
 .mmod { position: absolute; inset: .4em; background: #fff; border-radius: 10px; box-shadow: 0 14px 40px rgba(0,0,0,.35); overflow: hidden; display: grid; align-content: start; gap: .45em; z-index: 4; animation: pop .3s; }
 .mhd { display: flex; gap: .6em; align-items: center; background: linear-gradient(90deg, #B3150F, #D8432F); color: #fff; padding: .5em .7em; } .mhd i { font-style: normal; width: 2em; height: 2em; border-radius: 8px; background: rgba(255,255,255,.2); display: grid; place-items: center; font-weight: 800; }
+.mhd .sq { outline: 2px solid #F2C94C; border-radius: 5px; padding: 0 .25em; background: rgba(242,201,76,.25); font-weight: 700; animation: sqp 1.2s ease-in-out infinite; }
+@keyframes sqp { 50% { outline-color: transparent; } }
+.sqnote { margin: .5em .7em 0; padding: .45em .6em; border-left: 3px solid #F2C94C; background: rgba(242,201,76,.12); border-radius: 6px; font-size: .85em; line-height: 1.35; }
 .mhd div { flex: 1; display: grid; } .mhd b { font-size: 1.2em; } .mhd button { background: rgba(255,255,255,.25); border: 0; color: #fff; border-radius: 50%; width: 1.8em; height: 1.8em; cursor: pointer; outline: 2px solid #F2C94C; }
 .mk { display: grid; grid-template-columns: repeat(4, 1fr); gap: .4em; padding: 0 .7em; } .mk div { background: #FDF1F1; border-radius: 8px; padding: .35em .5em; display: grid; } .mk small { font-size: .72em; font-weight: 700; color: #8A7A7E; } .mk b { font-size: 1.3em; color: #B3150F; } .mk .up { font-size: .95em; color: #2E8B57; }
 .mprog { margin: 0 .7em; background: #F6F6F8; border-radius: 8px; padding: .4em .6em 1.9em; } .mprog small { color: #2E8B57; font-weight: 700; }
@@ -1587,12 +1590,13 @@ function renderGame(G, i) {
         ds.innerHTML = stage < 2 ? STEPS[stage] : want.length ? `3/3 · Clique em <b>Período</b> e escolha <b>${want[0]}</b>.` : '✓ Pronto: você já sabe buscar e filtrar suas horas.';
         narrate(stage < 2 ? NARR[stage] : want.length ? (want.length === 3 ? `Agora o filtro. Clique em Período, à esquerda, e escolha ${want[0]}.` : `Veja como os números mudaram. Agora clique em Período e escolha ${want[0]}.`) : 'Pronto! Você já sabe buscar um membro e filtrar as horas por período.'); };
       const openMember = m => { const mm = $('mm'), d = PER[per]; $('drop').hidden = true; mm.hidden = false;
-        mm.innerHTML = `<div class="mhd"><i>Σ</i><div><b>${m[0]}</b><small>🪪 RG ${m[1]} · ${m[2]} · 🛡️ ${m[3]} · ${m[4]}</small></div><button id="mmx" aria-label="Fechar">✕</button></div>
+        mm.innerHTML = `<div class="mhd"><i>Σ</i><div><b>${m[0]}</b><small>🪪 RG ${m[1]} · ${m[2]} · <span class="sq">🛡️ ${m[3]}</span> · ${m[4]}</small></div><button id="mmx" aria-label="Fechar">✕</button></div>
+          <div class="sqnote">🛡️ <b>Esquadrão: ${m[3]}</b> — o bombeiro é dividido em 4 esquadrões: <b>Alfa</b> (feminino), <b>Sigma</b>, <b>Delta</b> e <b>Omega</b>. Cada esquadrão tem seu próprio ranking, garantindo uma competição mais equilibrada.</div>
           <div class="mk"><div><small>HORAS (${per.toUpperCase()})</small><b>${d.me}</b></div><div><small>FALTAS / FJ</small><b>0 / 1</b></div><div><small>PRESENÇA</small><b>95%</b></div><div><small>SITUAÇÃO</small><b class="up">Upado ⇑</b></div></div>
           <div class="mprog"><small>✓ Upamento normal: atingido → próxima patente</small><div class="tr"><i style="width:22%"></i><span style="left:12%">Normal<br>6h</span><span style="left:50%">Duplo<br>24h</span><span style="left:94%">Triplo<br>48h</span></div></div>
           <div class="cal">${['S', 'T', 'Q', 'Q', 'S', 'S', 'D'].map((x, k) => `<i style="opacity:${.35 + (k * 37 % 60) / 100}">${x}</i>`).join('')}</div>`;
         $('mmx').onclick = () => { mm.hidden = true; if (stage === 1) { stage = 2; guide(); } };
-        if (stage === 1) { $('dstep').innerHTML = 'Esta é a ficha: horas, faltas, presença e metas de upamento. Feche no ✕ para continuar.'; narrate('Esta é a ficha do membro, com horas, faltas, presença e o progresso das metas de upamento. Feche no X para continuar.'); } };
+        if (stage === 1) { $('dstep').innerHTML = 'Esta é a ficha: horas, faltas, presença e metas de upamento. Feche no ✕ para continuar.'; narrate('Esta é a ficha do membro, com horas, faltas, presença e o progresso das metas de upamento. Em destaque, o esquadrão do membro: o bombeiro é dividido em quatro esquadrões, Alfa, feminino, Sigma, Delta e Omega, cada um com seu próprio ranking, para uma competição mais equilibrada. Feche no X para continuar.'); } };
     }
   }
   if (G.type === 'copom') {
