@@ -115,6 +115,30 @@ header p { margin: 0; color: var(--muted); font-size: 14px; }
 .result .big { font-family: var(--display); font-weight: 800; font-size: 3.4em; line-height: 1; color: var(--yellow); }
 .result .rank { font-family: var(--display); font-weight: 800; font-size: 1.6em; letter-spacing: .06em; text-transform: uppercase; }
 .score { position: absolute; top: 3%; left: 50%; transform: translateX(-50%); font: 600 clamp(10px, 1.4vw, 15px) var(--body); color: var(--yellow); background: rgba(18,19,24,.72); padding: .3em .8em; border-radius: 999px; font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) {
+  body { padding-left: 8px; padding-right: 8px; padding-top: 8px; }
+  .wrap { gap: 10px; }
+  .stage:has(.game.on) { aspect-ratio: auto; min-height: 56.25vw; }
+  .stage:has(.game.on) canvas { position: absolute; inset: 0; }
+  .stage:has(.game.on) .hud { position: relative; min-height: 56.25vw; }
+  .stage:has(.game.on) .game { position: relative; inset: auto; margin: 2.2em 6px 6px; font-size: 14px; max-height: none; overflow: visible; }
+  .game { padding: .8em .9em; }
+  .game h2 { font-size: 1.35em; }
+  .game .fb { padding-right: 0; }
+  .gfoot { position: static; margin-top: .4em; }
+  .calls, .sendf { grid-template-columns: 1fr; }
+  .ctrl button { padding: 8px 10px; font-size: 13px; }
+  .ctrl .grow { order: 9; flex-basis: 100%; }
+  .chaps { grid-template-columns: 1fr; }
+  .card { inset: 4% 3% 12%; }
+  .opts button, .chap button { min-height: 40px; }
+}
+.mtin:has(.entb), .cpl:has(.entb) { display: flex; gap: 6px; align-items: center; }
+.mtin:has(.entb) input, .cpl:has(.entb) input { flex: 1; min-width: 0; }
+.entb { font: 700 13px var(--body); background: var(--yellow); color: #1a1a1a; border: 0; border-radius: 7px; padding: 6px 10px; cursor: pointer; white-space: nowrap; }
+.kpick { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+.kpick small { flex-basis: 100%; color: var(--muted); }
+.kpick button { font: 700 15px ui-monospace, monospace; min-width: 40px; min-height: 40px; background: var(--yellow); color: #1a1a1a; border: 0; border-radius: 7px; cursor: pointer; }
 .sendf { display: grid; grid-template-columns: 1fr 1fr; gap: .5em; margin-top: .9em; }
 .sendf input { font: 500 1em var(--body); color: var(--fg); background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 9px; padding: .6em .75em; min-width: 0; }
 .sendf button { grid-column: 1 / -1; font: 700 1em var(--body); color: #1a1a1a; background: var(--yellow); border: 0; border-radius: 9px; padding: .65em; cursor: pointer; }
@@ -1370,6 +1394,11 @@ let stepObs = null, lastStep = '';
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyztTGMuuHSqyodA7lpqOrPDX1zdarePx6ariYDCfuK7buXfPmp1xm7E4pE8ixapa9y/exec';
 const LEDGER = (() => { const m = new Map(); return Object.freeze({ add: (i, p) => { if (!m.has(i) && (Number.isInteger(p) && p >= 0 && p <= 100 && p % 20 === 0) && S[i] && S[i].game && S[i].game.type !== 'result') m.set(i, p); }, sum: () => [...m.values()].reduce((a, b) => a + b, 0), n: () => m.size, dump: () => [...m], reset: () => m.clear() }); })();
 let resultGuard = null;
+const TOUCH = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+// botão ⏎ Enter ao lado dos campos de console/chat (celular não tem Enter confiável)
+new MutationObserver(() => { document.querySelectorAll('#bci, #cpi').forEach(i => { if (i.nextElementSibling && i.nextElementSibling.classList.contains('entb')) return; const b = document.createElement('button'); b.type = 'button'; b.className = 'entb'; b.textContent = '⏎ Enter'; b.onclick = () => i.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', bubbles: true })); i.after(b); }); }).observe(document.body, { childList: true, subtree: true });
+// no celular, troca instruções de botão direito por toque simples
+if (TOUCH) new MutationObserver(() => { const g = document.getElementById('game'); if (!g) return; g.querySelectorAll('p, .fb').forEach(p => { if (/bot[ãa]o direito|MOUSE 2/i.test(p.innerHTML)) p.innerHTML = p.innerHTML.replace(/[Cc]lique com o bot[ãa]o direito( do mouse)?/g, 'Toque').replace(/bot[ãa]o direito( do mouse)?/g, 'toque').replace(/\s*\(MOUSE 2\)/g, ''); }); }).observe(document.body, { childList: true, subtree: true });
 let score = 0, answered = {}, holdSt = null, taskTimers = [], radioKeys = null;
 const gameEl = $('game'), TASKS = () => S.filter(x => x.game && x.game.type !== 'result'), MAXPTS = () => TASKS().length * 100;
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
@@ -1832,6 +1861,8 @@ function renderGame(G, i) {
     const taken = new Set([...TOP, ...MINE].map(r => r[0] ? r[1] : '').filter(Boolean));
     const capture = c => { st = 4; c.classList.remove('go'); c.classList.add('wait'); c.textContent = 'Aperte uma tecla...';
       step('<p>5. Agora aperte <b>qualquer tecla do teclado</b> para virar a nova tecla dessa bind.</p>'); say('Agora aperte qualquer tecla do teclado. Ela vira a nova tecla da bind.');
+      if (TOUCH) { const kp = el('div', 'kpick', '<small>Sem teclado? Toque numa tecla:</small>' + ['4', '5', '6', '7', 'J', 'K', 'L', 'Z'].map(k => `<button type="button" data-k="${k}">${k}</button>`).join('')); $('go').append(kp);
+        kp.querySelectorAll('button').forEach(b => b.onclick = () => { const k = b.dataset.k; window.dispatchEvent(new KeyboardEvent('keydown', { key: k.toLowerCase(), code: /\d/.test(k) ? 'Digit' + k : 'Key' + k })); if (st !== 4) kp.remove(); }); }
       const kh = e => { if (!$('mtak') || over) return window.removeEventListener('keydown', kh, true); e.preventDefault(); e.stopPropagation();
         const k = e.code.startsWith('Numpad') ? 'num_' + e.code.slice(6).toLowerCase().replace('subtract', 'sub') : e.key === ' ' ? 'space' : e.key.length === 1 ? e.key.toLowerCase() : e.key.toLowerCase().replace('arrow', '');
         if (k === 'escape' || k === 'shift' || k === 'control' || k === 'alt') return; if (k === '9') return miss('Essa já é a tecla atual. Aperte outra.');
@@ -1864,7 +1895,7 @@ function renderGame(G, i) {
         ${VIC.map(([x, y], i) => `<button class="gring vd" data-i="${i}" style="left:${x}%;top:${y}%" aria-label="Vítima ${i + 1}"></button>`).join('')}</div></div>`;
       const S = $('gms');
       S.oncontextmenu = e => { e.preventDefault(); if (st !== 2) return; const d = e.target.closest('.vd'); if (!d) return miss('Aí não tem vítima. Clique com o botão direito numa gota de sangue.'); markGps(d); };
-      S.onclick = e => { if (st === 2 && e.target.closest('.vd')) miss('MOUSE 1 só seleciona. Para marcar o GPS, use o botão direito (MOUSE 2).'); };
+      S.onclick = e => { if (TOUCH) return S.oncontextmenu(e); if (st === 2 && e.target.closest('.vd')) miss('MOUSE 1 só seleciona. Para marcar o GPS, use o botão direito (MOUSE 2).'); };
       const markGps = d => { st = 3; const [x, y] = VIC[+d.dataset.i]; S.querySelectorAll('.vd').forEach(b => b.classList.toggle('sel', b === d));
         const yy = v => (v * .5623).toFixed(2); $('gps').setAttribute('points', `${ME[0]},${yy(ME[1])} ${ME[0] - 2},${yy(ME[1] - 6)} ${(x + ME[0]) / 2},${yy(y + 1.5)} ${x},${yy(y)}`);
         step('<p>✓ Destino marcado! A rota aparece no GPS. Siga até a vítima.</p>'); later(finish, 900); }; };
@@ -1892,7 +1923,7 @@ function renderGame(G, i) {
     key.b = () => { if (st !== 4) return; st = 5; step('<p>6. Clique com o <b>botão direito</b> no radinho e escolha <b>Equipar</b>.</p>');
       W.innerHTML = `<div class="gsm inv"><div class="ivh"><b>Meu Inventário</b><span class="kg">1/50<br>KG</span></div><div class="ivg">${Array.from({ length: 15 }, (_, k) => k ? '<i></i>' : '<i class="rd" id="rdi" tabindex="0">📻</i>').join('')}</div><div class="ivl">🔒 <b>Espaços bloqueados :(</b></div><div class="ctx" id="ctx" hidden><button id="eq">Equipar</button></div></div>`;
       const rd = $('rdi'), menu = () => { $('ctx').hidden = false; };
-      rd.oncontextmenu = e => { e.preventDefault(); menu(); }; rd.onclick = () => miss('Use o botão direito do mouse no radinho.');
+      rd.oncontextmenu = e => { e.preventDefault(); menu(); }; rd.onclick = e => TOUCH ? rd.oncontextmenu(e) : miss('Use o botão direito do mouse no radinho.');
       rd.addEventListener('keydown', e => { if (e.key === 'ContextMenu' || (e.shiftKey && e.key === 'F10')) { e.preventDefault(); menu(); } });
       $('eq').onclick = () => { st = 6; W.innerHTML = ''; step('<p>✓ Radinho equipado. 7. Aperte <kbd>J</kbd> para abrir o radinho.</p><button class="act" id="r7">J · Abrir radinho</button>'); $('r7').onclick = key.j; }; };
     // 7-9. radinho
@@ -1968,6 +1999,7 @@ function renderGame(G, i) {
       draw(); st(`<p>4. Você tem ${TOT} ${Y ? 'seringas' : 'kits'} juntos. Para vender 1, <b>clique com o botão direito</b> no monte e escolha <b>Separar</b>.</p>`); };
     const draw = () => { const g = $('tg'); g.innerHTML = `<i class="it">${Y ? KIT : SYR}<em>${Y ? 4 : 10}</em></i>` + kits.map((n, j) => `<i class="it kt ${stage === 3 && j === 0 ? 'rd' : ''} ${stage === 5 && j === 1 ? 'rd' : ''}" data-j="${j}">${ICO}<em>${n}</em></i>`).join('') + '<i></i>'.repeat(14 - kits.length);
       g.querySelectorAll('.kt').forEach(k => { const j = +k.dataset.j;
+        k.onclick = e => { if (TOUCH && stage === 3) k.oncontextmenu(e); };
         k.oncontextmenu = e => { e.preventDefault(); if (stage !== 3) return; $('tctx').hidden = false; $('tctx').style.left = k.offsetLeft + 30 + 'px'; $('tctx').style.top = k.offsetTop + 30 + 'px'; };
         if (stage === 5) drag(k, z => { if (!z || z.dataset.drop !== 'p') return false; if (kits[j] !== 1) { miss('Esse monte tem ' + kits[j] + '. Arraste o monte separado (1).'); return false; } sold = 1; kits.splice(j, 1); z.innerHTML = ICO + '<em>1</em>'; z.classList.add('it', 'kt'); stage = 6; draw();
           st(`<p>7. Informe o preço ao paciente: <b>clique na mensagem certa</b> para enviar no chat (1 ${NM} = ${PRS}). Quem coloca o valor no $ é ele.</p>`);
